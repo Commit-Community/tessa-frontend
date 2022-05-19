@@ -11,7 +11,7 @@ import { useContext } from "react";
 import Page from "./Page";
 import SessionContext from "./SessionContext";
 
-const App = () => {
+const Home = () => {
   const { error, isLoading, session } = useContext(SessionContext);
   return (
     <Page
@@ -75,4 +75,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Home;
