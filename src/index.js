@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import Home from "./Home";
+import PrivacyPolicy from "./PrivacyPolicy";
 import reportWebVitals from "./reportWebVitals";
 import { SessionProvider } from "./SessionContext";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -13,6 +14,7 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         </Routes>
       </BrowserRouter>
     </SessionProvider>
