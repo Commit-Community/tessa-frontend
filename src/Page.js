@@ -1,15 +1,16 @@
 import React from "react";
 import {
-  Box,
   Container,
   createTheme,
   CssBaseline,
   GlobalStyles,
+  Link as MuiLink,
   responsiveFontSizes,
   Stack,
   ThemeProvider,
   Typography,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 
 import logo from "./logo.svg";
 
@@ -40,14 +41,16 @@ const Page = ({ children, header }) => (
         my={2}
         spacing={4}
       >
-        <Box
-          sx={{
+        <Link
+          to="/"
+          style={{
             alignItems: "center",
             display: "flex",
             flexDirection: "row",
             fontWeight: 900,
             fontSize: 28,
             letterSpacing: 4,
+            textDecoration: "none",
           }}
         >
           <span style={{ color: "#ff68ba" }}>T</span>
@@ -61,16 +64,19 @@ const Page = ({ children, header }) => (
             height={32}
             style={{ position: "relative", left: "-5px" }}
           />
-        </Box>
+        </Link>
         {header}
       </Stack>
     </Container>
     {children}
-    <Box mt={12} mb={6}>
+    <Stack mt={12} mb={6} spacing={1} direction="row" justifyContent="center">
       <Typography align="center" color="text.secondary" variant="body2">
         © Commit Solutions Inc.
       </Typography>
-    </Box>
+      <MuiLink component={Link} to="/privacy-policy" variant="body2">
+        Privacy Policy
+      </MuiLink>
+    </Stack>
   </ThemeProvider>
 );
 
