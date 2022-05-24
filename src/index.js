@@ -2,10 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import Home from "./Home";
-import PrivacyPolicy from "./PrivacyPolicy";
+import HomePage from "./HomePage";
+import PrivacyPolicyPage from "./PrivacyPolicyPage";
 import reportWebVitals from "./reportWebVitals";
 import { SessionProvider } from "./SessionContext";
+import SkillsPage from "./SkillsPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -13,8 +14,9 @@ root.render(
     <SessionProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/skills/" element={<SkillsPage />} />
+          <Route path="/privacy-policy/" element={<PrivacyPolicyPage />} />
         </Routes>
       </BrowserRouter>
     </SessionProvider>
