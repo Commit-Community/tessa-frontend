@@ -1,5 +1,4 @@
 import {
-  Card,
   Container,
   FormControl,
   FormControlLabel,
@@ -9,14 +8,12 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
+import { Fragment } from "react";
 import { useParams } from "react-router-dom";
-import MarkdownIt from "markdown-it";
 
 import Page from "./Page";
 import useApiData from "./useApiData";
-import { Fragment } from "react";
-
-const md = new MarkdownIt();
+import Recommendation from "./Recommendation";
 
 const SkillPage = () => {
   const { id: skillId } = useParams();
@@ -105,29 +102,22 @@ const SkillPage = () => {
                               Community recommendations
                             </Typography>
                             {facetRecommendations.map((recommendation) => (
-                              <Card
+                              <Recommendation
                                 key={recommendation.id}
-                                variant="outlined"
-                                sx={{
-                                  background: "rgba(0,0,0,0.5)",
-                                  borderColor: "rgba(255,255,255,0.25)",
-                                  px: 3,
-                                  mb: 2,
-                                }}
-                              >
-                                <Typography component="div" mb>
-                                  <div
-                                    dangerouslySetInnerHTML={{
-                                      __html: md.render(
-                                        recommendation.markdown
-                                      ),
-                                    }}
-                                  />
-                                </Typography>
-                              </Card>
+                                id={recommendation.id}
+                                markdown={recommendation.markdown}
+                                prompt={facet.recommendation_prompt}
+                                skillId={skill.id}
+                                facetId={facet.id}
+                              />
                             ))}
                           </>
                         )}
+                        <Recommendation
+                          prompt={facet.recommendation_prompt}
+                          skillId={skill.id}
+                          facetId={facet.id}
+                        />
                       </Grid>
                     </Fragment>
                   );
