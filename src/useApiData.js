@@ -14,9 +14,10 @@ const useApiData = ({ deps = [], initialData = null, path }) => {
     })
       .then((res) => res.json())
       .then(
-        ({ data }) => {
+        ({ data, error }) => {
           setIsLoading(false);
           setData(data);
+          setError(error);
         },
         (error) => {
           setIsLoading(false);
