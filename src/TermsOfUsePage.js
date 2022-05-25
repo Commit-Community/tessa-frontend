@@ -1,9 +1,10 @@
-import Page from "./Page";
 import { Container, Grid, Typography } from "@mui/material";
+
+import Page from "./Page";
 
 const TermsOfUsePage = () => (
   <Page>
-    <Container>
+    <Container sx={{ py: 6 }}>
       <Grid container justifyContent="center">
         <Grid item xs={12} md={8}>
           <Typography component="h1" variant="h3" align="center">
