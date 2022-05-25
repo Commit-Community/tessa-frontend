@@ -112,6 +112,9 @@ const Page = ({ children }) => {
         <MuiLink component={Link} to="/privacy-policy/" variant="body2">
           Privacy Policy
         </MuiLink>
+        <MuiLink component={Link} to="/terms-of-use/" variant="body2">
+          Terms of Use
+        </MuiLink>
       </Stack>
     </ThemeProvider>
   );

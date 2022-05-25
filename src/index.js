@@ -7,6 +7,7 @@ import PrivacyPolicyPage from "./PrivacyPolicyPage";
 import reportWebVitals from "./reportWebVitals";
 import { SessionProvider } from "./SessionContext";
 import SkillsPage from "./SkillsPage";
+import TermsOfUsePage from "./TermsOfUsePage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,6 +18,7 @@ root.render(
           <Route path="/" element={<HomePage />} />
           <Route path="/skills/" element={<SkillsPage />} />
           <Route path="/privacy-policy/" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-of-use/" element={<TermsOfUsePage />} />
         </Routes>
       </BrowserRouter>
     </SessionProvider>
