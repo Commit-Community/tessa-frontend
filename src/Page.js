@@ -73,7 +73,7 @@ const Page = ({ children }) => {
               />
             </Link>
             <Typography variant="button">
-              <MuiLink component={Link} to="/skills/">
+              <MuiLink component={Link} to="/skills/" underline="none">
                 Skills
               </MuiLink>
             </Typography>

@@ -6,6 +6,7 @@ import HomePage from "./HomePage";
 import PrivacyPolicyPage from "./PrivacyPolicyPage";
 import reportWebVitals from "./reportWebVitals";
 import { SessionProvider } from "./SessionContext";
+import SkillPage from "./SkillPage";
 import SkillsPage from "./SkillsPage";
 import TermsOfUsePage from "./TermsOfUsePage";
 
@@ -17,6 +18,7 @@ root.render(
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/skills/" element={<SkillsPage />} />
+          <Route path="/skills/:id/" element={<SkillPage />} />
           <Route path="/privacy-policy/" element={<PrivacyPolicyPage />} />
           <Route path="/terms-of-use/" element={<TermsOfUsePage />} />
         </Routes>
