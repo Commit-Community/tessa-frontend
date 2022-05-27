@@ -9,7 +9,9 @@ import {
   Typography,
 } from "@mui/material";
 import MarkdownIt from "markdown-it";
-import { useState } from "react";
+import { useState, useContext } from "react";
+
+import SessionContext from "./SessionContext";
 
 const md = new MarkdownIt();
 
@@ -19,7 +21,9 @@ const Recommendation = ({
   prompt,
   skillId,
   facetId,
+  onSave,
 }) => {
+  const { isAuthor } = useContext(SessionContext);
   const [isEditing, setIsEditing] = useState(false);
   const [id, setId] = useState(defaultId);
   const [markdown, setMarkdown] = useState(defaultMarkdown);
@@ -52,6 +56,9 @@ const Recommendation = ({
           setSaveError(error);
           if (!error) {
             setIsEditing(false);
+            if (typeof onSave === "function") {
+              onSave();
+            }
           }
         },
         (error) => {
@@ -137,22 +144,26 @@ const Recommendation = ({
           }}
         />
       </Typography>
-      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 1 }}>
-        <Button onClick={() => setIsEditing(true)} size="small">
-          Edit
-        </Button>
-      </Box>
+      {isAuthor && (
+        <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 1 }}>
+          <Button onClick={() => setIsEditing(true)} size="small">
+            Edit
+          </Button>
+        </Box>
+      )}
     </Card>
   ) : (
-    <Box py={3}>
-      <Button
-        variant="outlined"
-        onClick={() => setIsEditing(true)}
-        size="small"
-      >
-        Add new recommendation
-      </Button>
-    </Box>
+    isAuthor && (
+      <Box py={3}>
+        <Button
+          variant="outlined"
+          onClick={() => setIsEditing(true)}
+          size="small"
+        >
+          Add new recommendation
+        </Button>
+      </Box>
+    )
   );
 };
 
