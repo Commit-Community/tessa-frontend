@@ -78,15 +78,15 @@ const Page = ({ children }) => {
               </MuiLink>
             </Typography>
           </Stack>
-          {isLoading || error ? null : session.userId ? (
+          {isLoading || error || !session ? null : session.user_id ? (
             <Stack alignItems="center" direction="row">
               <Typography variant="button" mr={3}>
-                Hi, {session.githubUsername}
+                Hi, {session.github_username}
               </Typography>
               <Button
                 component="a"
                 href={`${process.env.REACT_APP_API_ORIGIN}/auth/logout`}
-                variant="outlined"
+                variant="text"
               >
                 Sign out
               </Button>

@@ -8,20 +8,23 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
-import { Fragment } from "react";
+import { Fragment, useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Page from "./Page";
 import useApiData from "./useApiData";
 import Recommendation from "./Recommendation";
+import SessionContext from "./SessionContext";
 
 const SkillPage = () => {
   const { id: skillId } = useParams();
+  const { isUser, isAnonymous } = useContext(SessionContext);
+  const [lastUpdatedAt, setLastUpdatedAt] = useState(Date.now());
   const {
     data: skill,
     skillError,
     isSkillLoading,
-  } = useApiData({ path: `/skills/${skillId}` });
+  } = useApiData({ path: `/skills/${skillId}`, deps: [lastUpdatedAt] });
   const {
     data: facets,
     facetsError,
@@ -62,11 +65,12 @@ const SkillPage = () => {
                         <Typography component="h2" variant="h4" mb={2}>
                           {facet.name}
                         </Typography>
-                        <FormControl>
+                        <FormControl disabled={!isUser}>
                           <FormLabel
                             id={`skill-${skill.id}-facet-${facet.id}-statements`}
+                            sx={{ mb: 1 }}
                           >
-                            Which statement reflects you the best?
+                            Which statement reflects you the best right now?
                           </FormLabel>
                           <RadioGroup
                             aria-labelledby={`skill-${skill.id}-facet-${facet.id}-statements`}
@@ -82,6 +86,16 @@ const SkillPage = () => {
                             ))}
                           </RadioGroup>
                         </FormControl>
+                        {isAnonymous && (
+                          <Typography
+                            component="p"
+                            variant="body2"
+                            color="primary"
+                            sx={{ mt: 2 }}
+                          >
+                            Sign in to save your response.
+                          </Typography>
+                        )}
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <Typography component="h3" variant="h5" my={1}>
@@ -114,9 +128,11 @@ const SkillPage = () => {
                           </>
                         )}
                         <Recommendation
+                          key={lastUpdatedAt}
                           prompt={facet.recommendation_prompt}
                           skillId={skill.id}
                           facetId={facet.id}
+                          onSave={() => setLastUpdatedAt(Date.now())}
                         />
                       </Grid>
                     </Fragment>
