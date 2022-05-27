@@ -1,19 +1,11 @@
-import {
-  Container,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Grid,
-  Radio,
-  RadioGroup,
-  Typography,
-} from "@mui/material";
+import { Container, Grid, Typography } from "@mui/material";
 import { Fragment, useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Page from "./Page";
 import useApiData from "./useApiData";
 import Recommendation from "./Recommendation";
+import Reflection from "./Reflection";
 import SessionContext from "./SessionContext";
 
 const SkillPage = () => {
@@ -65,27 +57,12 @@ const SkillPage = () => {
                         <Typography component="h2" variant="h4" mb={2}>
                           {facet.name}
                         </Typography>
-                        <FormControl disabled={!isUser}>
-                          <FormLabel
-                            id={`skill-${skill.id}-facet-${facet.id}-statements`}
-                            sx={{ mb: 1 }}
-                          >
-                            Which statement reflects you the best right now?
-                          </FormLabel>
-                          <RadioGroup
-                            aria-labelledby={`skill-${skill.id}-facet-${facet.id}-statements`}
-                            name={`skill-${skill.id}-facet-${facet.id}-statement`}
-                          >
-                            {facetStatements.map((statement) => (
-                              <FormControlLabel
-                                key={statement.id}
-                                value={statement.id}
-                                control={<Radio />}
-                                label={`“${statement.assertion}”`}
-                              />
-                            ))}
-                          </RadioGroup>
-                        </FormControl>
+                        <Reflection
+                          disabled={!isUser}
+                          facetId={facet.id}
+                          skillId={skill.id}
+                          statements={facetStatements}
+                        />
                         {isAnonymous && (
                           <Typography
                             component="p"
