@@ -1,4 +1,6 @@
 import {
+  Box,
+  Button,
   Card,
   Container,
   Grid,
@@ -6,11 +8,14 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
 
 import Page from "./Page";
 import useApiData from "./useApiData";
+import SessionContext from "./SessionContext";
 
 const SkillsPage = () => {
+  const { isAuthor } = useContext(SessionContext);
   const { data: skills, error, isLoading } = useApiData({ path: "/skills/" });
   return (
     <Page>
@@ -22,7 +27,7 @@ const SkillsPage = () => {
             <Typography component="h1" variant="h3" mb>
               Skills
             </Typography>
-            <Typography variant="body1" sx={{ maxWidth: "30em" }}>
+            <Typography component="p" variant="body1" sx={{ maxWidth: "30em" }}>
               This page lists all of the essential skills that have been
               documented in TESSA.
             </Typography>
@@ -39,6 +44,7 @@ const SkillsPage = () => {
                         variant="h6"
                         lineHeight={1.25}
                         mb
+                        minHeight="2.5em"
                       >
                         <MuiLink
                           component={Link}
@@ -49,7 +55,12 @@ const SkillsPage = () => {
                           {skill.name}
                         </MuiLink>
                       </Typography>
-                      <Typography variant="body2" mb={3}>
+                      <Typography
+                        variant="body2"
+                        mb={3}
+                        lineHeight={1.5}
+                        minHeight="3em"
+                      >
                         {skill.description}
                       </Typography>
                       <Typography variant="button">
@@ -64,6 +75,20 @@ const SkillsPage = () => {
                     </Card>
                   </Grid>
                 ))}
+                {isAuthor && (
+                  <Grid item xs={12} md={6} lg={4}>
+                    <Box display="flex" justifyContent="center">
+                      <Button
+                        component={Link}
+                        to="/new-skill/"
+                        variant="contained"
+                        sx={{ my: 10 }}
+                      >
+                        + Add New Skill
+                      </Button>
+                    </Box>
+                  </Grid>
+                )}
               </Grid>
             )}
           </>
