@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import HomePage from "./HomePage";
+import NewSkillPage from "./NewSkillPage";
 import PrivacyPolicyPage from "./PrivacyPolicyPage";
 import reportWebVitals from "./reportWebVitals";
 import { SessionProvider } from "./SessionContext";
@@ -19,6 +20,7 @@ root.render(
           <Route path="/" element={<HomePage />} />
           <Route path="/skills/" element={<SkillsPage />} />
           <Route path="/skills/:id/" element={<SkillPage />} />
+          <Route path="/new-skill/" element={<NewSkillPage />} />
           <Route path="/privacy-policy/" element={<PrivacyPolicyPage />} />
           <Route path="/terms-of-use/" element={<TermsOfUsePage />} />
         </Routes>

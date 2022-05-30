@@ -7,6 +7,7 @@ import useApiData from "./useApiData";
 import Recommendation from "./Recommendation";
 import Reflection from "./Reflection";
 import SessionContext from "./SessionContext";
+import SkillHeader from "./SkillHeader";
 
 const SkillPage = () => {
   const { id: skillId } = useParams();
@@ -36,12 +37,11 @@ const SkillPage = () => {
           "There was an error loading the page."}
         {skill && facets && statements && (
           <>
-            <Typography component="h1" variant="h3" mb>
-              {skill.name}
-            </Typography>
-            <Typography variant="body1" sx={{ maxWidth: "30em" }} mb={12}>
-              {skill.description}
-            </Typography>
+            <SkillHeader
+              id={skill.id}
+              name={skill.name}
+              description={skill.description}
+            />
             {facets && (
               <Grid container columnSpacing={3} rowSpacing={9}>
                 {facets.map((facet) => {

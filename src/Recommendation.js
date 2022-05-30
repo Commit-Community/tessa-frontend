@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Card,
-  Link as MuiLink,
   Stack,
   TextField,
   Typography,
@@ -11,6 +10,7 @@ import {
 import MarkdownIt from "markdown-it";
 import { useState, useContext } from "react";
 
+import ClickWrapAgreement from "./ClickWrapAgreement";
 import SessionContext from "./SessionContext";
 
 const md = new MarkdownIt();
@@ -68,13 +68,14 @@ const Recommendation = ({
       );
   };
   return isEditing ? (
-    <Box py={3}>
+    <Box mb={2}>
       <TextField
         disabled={isSaving}
         fullWidth
         label={prompt}
         multiline
         rows={10}
+        variant="filled"
         value={markdown}
         onChange={(event) => {
           setMarkdown(event.target.value);
@@ -90,25 +91,8 @@ const Recommendation = ({
           {saveError.message}
         </Alert>
       )}
-      <Typography
-        component="div"
-        variant="body2"
-        display="flex"
-        justifyContent="flex-end"
-      >
-        <p>
-          By clicking "Save", you agree to the{" "}
-          <MuiLink href="/privacy-policy/" target="_blank">
-            Privacy Policy
-          </MuiLink>{" "}
-          and{" "}
-          <MuiLink href="/terms-of-use/" target="_blank">
-            Terms of Use
-          </MuiLink>
-          .
-        </p>
-      </Typography>
-      <Stack justifyContent="flex-end" direction="row" my={1} spacing={1}>
+      <ClickWrapAgreement buttonLabel="Save" justifyContent="flex-end" />
+      <Stack justifyContent="flex-end" direction="row" spacing={1}>
         <Button
           disabled={isSaving}
           onClick={() => setIsEditing(false)}
@@ -128,16 +112,8 @@ const Recommendation = ({
       </Stack>
     </Box>
   ) : id ? (
-    <Card
-      variant="outlined"
-      sx={{
-        background: "rgba(0,0,0,0.5)",
-        borderColor: "rgba(255,255,255,0.25)",
-        px: 3,
-        mb: 2,
-      }}
-    >
-      <Typography component="div" mb>
+    <Card variant="outlined" sx={{ mb: 2 }}>
+      <Typography component="div" px={2.5}>
         <div
           dangerouslySetInnerHTML={{
             __html: md.render(markdown),
@@ -145,7 +121,7 @@ const Recommendation = ({
         />
       </Typography>
       {isAuthor && (
-        <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 1 }}>
+        <Box sx={{ display: "flex", justifyContent: "flex-end", m: 1 }}>
           <Button onClick={() => setIsEditing(true)} size="small">
             Edit
           </Button>
@@ -154,7 +130,7 @@ const Recommendation = ({
     </Card>
   ) : (
     isAuthor && (
-      <Box py={3}>
+      <Box mb={2}>
         <Button
           variant="outlined"
           onClick={() => setIsEditing(true)}
