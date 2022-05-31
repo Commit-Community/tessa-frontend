@@ -59,7 +59,7 @@ const SkillsPage = () => {
                         variant="body2"
                         mb={3}
                         lineHeight={1.5}
-                        minHeight="3em"
+                        minHeight="4.5em"
                       >
                         {skill.description}
                       </Typography>

@@ -87,6 +87,11 @@ const Page = ({ children }) => {
                 Skills
               </MuiLink>
             </Typography>
+            <Typography variant="button">
+              <MuiLink component={Link} to="/reflections/" underline="none">
+                Reflections
+              </MuiLink>
+            </Typography>
           </Stack>
           {isLoading || error || !session ? null : session.user_id ? (
             <Stack alignItems="center" direction="row">

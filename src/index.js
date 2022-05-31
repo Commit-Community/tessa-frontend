@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./HomePage";
 import NewSkillPage from "./NewSkillPage";
 import PrivacyPolicyPage from "./PrivacyPolicyPage";
+import ReflectionsPage from "./ReflectionsPage";
 import reportWebVitals from "./reportWebVitals";
 import { SessionProvider } from "./SessionContext";
 import SkillPage from "./SkillPage";
@@ -21,6 +22,7 @@ root.render(
           <Route path="/skills/" element={<SkillsPage />} />
           <Route path="/skills/:id/" element={<SkillPage />} />
           <Route path="/new-skill/" element={<NewSkillPage />} />
+          <Route path="/reflections/" element={<ReflectionsPage />} />
           <Route path="/privacy-policy/" element={<PrivacyPolicyPage />} />
           <Route path="/terms-of-use/" element={<TermsOfUsePage />} />
         </Routes>
