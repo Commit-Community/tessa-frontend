@@ -1,5 +1,13 @@
-import { Container, Grid, Link as MuiLink, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Link as MuiLink,
+  Typography,
+} from "@mui/material";
 import Page from "./Page";
+import { Link } from "react-router-dom";
 
 const HomePage = () => (
   <Page>
@@ -29,6 +37,16 @@ const HomePage = () => (
             recommendations from the{" "}
             <MuiLink href="https://commit.dev/">Commit</MuiLink> community.
           </Typography>
+          <Box mb={8} textAlign="center">
+            <Button
+              component={Link}
+              to="/skills/"
+              variant="contained"
+              size="large"
+            >
+              View All Skills
+            </Button>
+          </Box>
         </Grid>
       </Grid>
     </Container>
