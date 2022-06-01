@@ -79,7 +79,7 @@ const SkillPage = () => {
                           {facet.recommendation_prompt}
                         </Typography>
                         {facetRecommendations.length === 0 && (
-                          <Typography color="secondary" my={3}>
+                          <Typography color="secondary" my={2}>
                             No recommendations have been left for this facet.
                           </Typography>
                         )}
