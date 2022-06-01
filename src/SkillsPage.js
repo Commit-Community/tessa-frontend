@@ -82,7 +82,7 @@ const SkillsPage = () => {
                         component={Link}
                         to="/new-skill/"
                         variant="contained"
-                        sx={{ my: 10 }}
+                        sx={{ my: 12 }}
                       >
                         + Add New Skill
                       </Button>
