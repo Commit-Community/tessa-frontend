@@ -29,7 +29,7 @@ const NewSkillPage = () => {
       .then((res) => res.json())
       .then(({ data: skill }) => {
         if (skill) {
-          navigate(`/skills/${skill.id}`, { replace: true });
+          navigate(`/skills/${skill.id}/`, { replace: true });
         }
       });
   };
