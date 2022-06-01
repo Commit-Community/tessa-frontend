@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import { Fragment, useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -30,20 +30,38 @@ const SkillPage = () => {
   } = useApiData({ path: `/statements` });
   return (
     <Page>
-      <Container sx={{ py: 6 }}>
+      <Container sx={{ py: 4 }}>
         {(isSkillLoading || isFacetsLoading || isStatementsLoading) &&
           "Loading..."}
         {(skillError || facetsError || statementsError) &&
           "There was an error loading the page."}
         {skill && facets && statements && (
           <>
-            <SkillHeader
-              id={skill.id}
-              name={skill.name}
-              description={skill.description}
-            />
+            <Box
+              mb={10}
+              py={2}
+              sx={{
+                background: "linear-gradient(90deg, #0f1011 0%, #010242 100%)",
+                backgroundPosition: "50% 50%",
+                backgroundSize: "100vw 100vh",
+                position: "sticky",
+                top: 0,
+                zIndex: 2,
+              }}
+            >
+              <SkillHeader
+                id={skill.id}
+                name={skill.name}
+                description={skill.description}
+              />
+            </Box>
             {facets && (
-              <Grid container columnSpacing={3} rowSpacing={9}>
+              <Grid
+                container
+                columnSpacing={3}
+                rowSpacing={9}
+                sx={{ position: "relative", zIndex: 1 }}
+              >
                 {facets.map((facet) => {
                   const facetRecommendations = skill.recommendations.filter(
                     ({ facet_id: facetId }) => facetId === facet.id

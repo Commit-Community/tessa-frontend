@@ -53,7 +53,7 @@ const SkillHeader = ({
     setIsEditing(false);
   };
   return isEditing ? (
-    <Stack spacing={3} mb={12}>
+    <Stack spacing={3}>
       <TextField
         fullWidth
         label="Skill name"
@@ -102,7 +102,7 @@ const SkillHeader = ({
       </Box>
     </Stack>
   ) : (
-    <Box mb={12}>
+    <Box>
       <Typography component="h1" variant="h3" mb>
         {name}
       </Typography>
@@ -110,7 +110,7 @@ const SkillHeader = ({
         {description}
       </Typography>
       {isAuthor && (
-        <Box my={3}>
+        <Box my={2}>
           <Button onClick={() => setIsEditing(true)} size="small">
             Edit Skill
           </Button>
