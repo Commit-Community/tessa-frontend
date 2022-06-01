@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Container,
@@ -15,9 +16,12 @@ import { useState } from "react";
 
 const NewSkillPage = () => {
   const navigate = useNavigate();
+  const [isSaving, setIsSaving] = useState();
+  const [error, setError] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const handleCreate = () => {
+    setIsSaving(true);
     fetch(`${process.env.REACT_APP_API_ORIGIN}/skills`, {
       method: "POST",
       credentials: "include",
@@ -27,11 +31,19 @@ const NewSkillPage = () => {
       body: JSON.stringify({ name, description }),
     })
       .then((res) => res.json())
-      .then(({ data: skill }) => {
-        if (skill) {
-          navigate(`/skills/${skill.id}`, { replace: true });
+      .then(
+        ({ data: skill, error }) => {
+          setIsSaving(false);
+          setError(error);
+          if (!error && skill) {
+            navigate(`/skills/${skill.id}/`, { replace: true });
+          }
+        },
+        (err) => {
+          setIsSaving(false);
+          setError(err);
         }
-      });
+      );
   };
   return (
     <Page>
@@ -54,6 +66,7 @@ const NewSkillPage = () => {
               fullWidth
               label="Skill name"
               variant="filled"
+              disabled={isSaving}
               InputProps={{ style: { fontSize: 22 } }}
               InputLabelProps={{ style: { fontSize: 22 } }}
               value={name}
@@ -84,7 +97,7 @@ const NewSkillPage = () => {
               variant="filled"
               multiline
               rows={2}
-              maxLength={255}
+              disabled={isSaving}
               value={description}
               onChange={(event) => setDescription(event.target.value)}
             />
@@ -111,11 +124,26 @@ const NewSkillPage = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <Paper variant="outlined">
+              {error && (
+                <Box px={2.5} pt={2.5}>
+                  <Alert
+                    severity="error"
+                    variant="outlined"
+                    onClose={() => setError()}
+                  >
+                    {error.message}
+                  </Alert>
+                </Box>
+              )}
               <Box px={2.5}>
                 <ClickWrapAgreement buttonLabel="Create Skill" />
               </Box>
               <Box px={2.5} pb={2.5}>
-                <Button variant="contained" onClick={handleCreate}>
+                <Button
+                  variant="contained"
+                  onClick={handleCreate}
+                  disabled={isSaving}
+                >
                   Create Skill
                 </Button>
               </Box>
