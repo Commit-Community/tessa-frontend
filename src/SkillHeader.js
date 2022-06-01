@@ -1,4 +1,11 @@
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useContext, useState } from "react";
 
 import SessionContext from "./SessionContext";
@@ -11,10 +18,12 @@ const SkillHeader = ({
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState();
   const { isAuthor } = useContext(SessionContext);
   const [name, setName] = useState(defaultName);
   const [description, setDescription] = useState(defaultDescription);
   const handleSave = () => {
+    setIsSaving(true);
     fetch(`${process.env.REACT_APP_API_ORIGIN}/skills/${id}`, {
       method: "PUT",
       credentials: "include",
@@ -22,15 +31,26 @@ const SkillHeader = ({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ name, description }),
-    }).then(
-      () => {
-        setIsSaving(false);
-        setIsEditing(false);
-      },
-      () => {
-        setIsSaving(false);
-      }
-    );
+    })
+      .then((res) => res.json())
+      .then(
+        ({ error }) => {
+          setIsSaving(false);
+          setError(error);
+          if (!error) {
+            setIsEditing(false);
+          }
+        },
+        (err) => {
+          setError(err);
+          setIsSaving(false);
+        }
+      );
+  };
+  const handleCancel = () => {
+    setName(defaultName);
+    setDescription(defaultDescription);
+    setIsEditing(false);
   };
   return isEditing ? (
     <Stack spacing={3} mb={12}>
@@ -38,6 +58,7 @@ const SkillHeader = ({
         fullWidth
         label="Skill name"
         variant="filled"
+        disabled={isSaving}
         InputProps={{ style: { fontSize: 22 } }}
         InputLabelProps={{ style: { fontSize: 22 } }}
         value={name}
@@ -49,16 +70,21 @@ const SkillHeader = ({
         variant="filled"
         multiline
         rows={2}
-        maxLength={255}
+        disabled={isSaving}
         value={description}
         onChange={(event) => setDescription(event.target.value)}
       />
       <Box>
+        {error && (
+          <Alert severity="error" variant="outlined" onClose={() => setError()}>
+            {error.message}
+          </Alert>
+        )}
         <ClickWrapAgreement buttonLabel="Save" justifyContent="flex-end" />
         <Stack justifyContent="flex-end" direction="row" spacing={1}>
           <Button
             disabled={isSaving}
-            onClick={() => setIsEditing(false)}
+            onClick={handleCancel}
             variant="outlined"
             size="small"
           >
