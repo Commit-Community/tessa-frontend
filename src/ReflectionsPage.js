@@ -27,7 +27,8 @@ const ReflectionsPage = () => {
   const { data: statements } = useQuery("statements", fetchStatements);
   const { data: skillsByFacetStatements } = useQuery(
     "skillsByFacetStatements",
-    fetchSkillsByFacetStatements
+    fetchSkillsByFacetStatements,
+    { enabled: isUser }
   );
   return (
     <Page>
