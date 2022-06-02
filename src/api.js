@@ -78,3 +78,13 @@ export const updateSkill = (skill) =>
     path: `/skills/${skill.id}/`,
     payload: skill,
   });
+
+export const saveRecommendation = (recommendation) =>
+  fetchFromApi({
+    includeCredentials: true,
+    method: recommendation.id ? "PUT" : "POST",
+    path: recommendation.id
+      ? `/recommendations/${recommendation.id}/`
+      : "/recommendations/",
+    payload: recommendation,
+  });

@@ -1,5 +1,5 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 
@@ -13,7 +13,6 @@ import useSession from "./useSession";
 const SkillPage = () => {
   const { id: skillId } = useParams();
   const { isUser, isAnonymous } = useSession();
-  const [lastUpdatedAt, setLastUpdatedAt] = useState(Date.now());
   const {
     data: skill,
     error: skillError,
@@ -123,11 +122,9 @@ const SkillPage = () => {
                           </>
                         )}
                         <Recommendation
-                          key={lastUpdatedAt}
                           prompt={facet.recommendation_prompt}
                           skillId={skill.id}
                           facetId={facet.id}
-                          onSave={() => setLastUpdatedAt(Date.now())}
                         />
                       </Grid>
                     </Fragment>

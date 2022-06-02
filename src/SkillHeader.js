@@ -69,6 +69,7 @@ const SkillHeader = ({
               setName(defaultName);
               setDescription(defaultDescription);
               setIsEditing(false);
+              reset();
             }}
             variant="outlined"
             size="small"
