@@ -45,6 +45,9 @@ const Page = ({ children }) => {
         body {
           background: linear-gradient(90deg, #0f1011 0%, #010242 100%);
         }
+        p, ul, ol {
+          margin: 0.5em 0;
+        }
       `}
       />
       <CssBaseline enableColorScheme />

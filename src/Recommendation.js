@@ -87,7 +87,7 @@ const Recommendation = ({
     </Box>
   ) : id ? (
     <Card variant="outlined" sx={{ mb: 2 }}>
-      <Typography component="div" px={2.5}>
+      <Typography component="div" px={1.5}>
         <div
           dangerouslySetInnerHTML={{
             __html: md.render(markdown),
