@@ -80,7 +80,7 @@ const SkillPage = () => {
                         sx={{ mt: 2 }}
                       >
                         <MuiLink href={signInURL}>Sign in</MuiLink> to save your
-                        response.
+                        reflection.
                       </Typography>
                     )}
                   </Grid>
