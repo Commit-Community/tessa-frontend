@@ -28,7 +28,8 @@ const SkillHeader = ({
     {
       onSuccess: () => {
         setIsEditing(false);
-        queryClient.invalidateQueries("skills");
+        queryClient.invalidateQueries("skills", { exact: true });
+        queryClient.invalidateQueries(["skills", id]);
       },
     }
   );
