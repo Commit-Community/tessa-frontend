@@ -21,6 +21,7 @@ const Reflection = ({ disabled, skillId, facetId, statements }) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(queryKey);
+        queryClient.invalidateQueries("skillsByFacetStatements");
       },
     }
   );
