@@ -1,7 +1,16 @@
-const fetchApiData = async ({ path, includeCredentials = false, signal }) => {
+const fetchApiData = async ({
+  includeCredentials = false,
+  method = "GET",
+  path,
+  payload,
+  signal,
+}) => {
   const response = await fetch(`${process.env.REACT_APP_API_ORIGIN}${path}`, {
     credentials: includeCredentials ? "include" : "omit",
+    method,
     signal,
+    headers: payload && { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
   });
   const { data, error } = await response.json();
   if (error) {
@@ -44,4 +53,12 @@ export const fetchLatestReflectionForSkillFacet = ({
     includeCredentials: true,
     path: `/reflections/latest/skills/${skillId}/facets/${facetId}/`,
     signal,
+  });
+
+export const updateSkill = (skill) =>
+  fetchApiData({
+    includeCredentials: true,
+    method: "PUT",
+    path: `/skills/${skill.id}`,
+    payload: skill,
   });

@@ -18,7 +18,7 @@ const SkillPage = () => {
     data: skill,
     error: skillError,
     isLoading: isSkillLoading,
-  } = useQuery(["skill", skillId], fetchSkill);
+  } = useQuery(["skills", skillId], fetchSkill);
   const {
     data: facets,
     error: facetsError,

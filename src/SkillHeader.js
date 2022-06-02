@@ -6,59 +6,39 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useMutation, useQueryClient } from "react-query";
 import { useState } from "react";
 
 import ClickWrapAgreement from "./ClickWrapAgreement";
 import useSession from "./useSession";
+import { updateSkill } from "./api";
 
 const SkillHeader = ({
   id,
   name: defaultName,
   description: defaultDescription,
 }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [error, setError] = useState();
   const { isAuthor } = useSession();
+  const queryClient = useQueryClient();
+  const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(defaultName);
   const [description, setDescription] = useState(defaultDescription);
-  const handleSave = () => {
-    setIsSaving(true);
-    fetch(`${process.env.REACT_APP_API_ORIGIN}/skills/${id}`, {
-      method: "PUT",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
+  const { error, isError, isLoading, mutate, reset } = useMutation(
+    updateSkill,
+    {
+      onSuccess: () => {
+        setIsEditing(false);
+        queryClient.invalidateQueries("skills");
       },
-      body: JSON.stringify({ name, description }),
-    })
-      .then((res) => res.json())
-      .then(
-        ({ error }) => {
-          setIsSaving(false);
-          setError(error);
-          if (!error) {
-            setIsEditing(false);
-          }
-        },
-        (err) => {
-          setError(err);
-          setIsSaving(false);
-        }
-      );
-  };
-  const handleCancel = () => {
-    setName(defaultName);
-    setDescription(defaultDescription);
-    setIsEditing(false);
-  };
+    }
+  );
   return isEditing ? (
     <Stack spacing={3}>
       <TextField
         fullWidth
         label="Skill name"
         variant="filled"
-        disabled={isSaving}
+        disabled={isLoading}
         InputProps={{ style: { fontSize: 22 } }}
         InputLabelProps={{ style: { fontSize: 22 } }}
         value={name}
@@ -70,29 +50,33 @@ const SkillHeader = ({
         variant="filled"
         multiline
         rows={2}
-        disabled={isSaving}
+        disabled={isLoading}
         value={description}
         onChange={(event) => setDescription(event.target.value)}
       />
       <Box>
-        {error && (
-          <Alert severity="error" variant="outlined" onClose={() => setError()}>
+        {isError && (
+          <Alert severity="error" variant="outlined" onClose={reset}>
             {error.message}
           </Alert>
         )}
         <ClickWrapAgreement buttonLabel="Save" justifyContent="flex-end" />
         <Stack justifyContent="flex-end" direction="row" spacing={1}>
           <Button
-            disabled={isSaving}
-            onClick={handleCancel}
+            disabled={isLoading}
+            onClick={() => {
+              setName(defaultName);
+              setDescription(defaultDescription);
+              setIsEditing(false);
+            }}
             variant="outlined"
             size="small"
           >
             Cancel
           </Button>
           <Button
-            disabled={isSaving}
-            onClick={handleSave}
+            disabled={isLoading}
+            onClick={() => mutate({ id, name, description })}
             variant="contained"
             size="small"
           >
