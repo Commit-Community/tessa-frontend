@@ -18,14 +18,14 @@ import { createSkill } from "./api";
 
 const NewSkillPage = () => {
   const navigate = useNavigate();
-  const { invalidateQueries } = useQueryClient();
+  const queryClient = useQueryClient();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const { error, isError, isLoading, mutate, reset } = useMutation(
     createSkill,
     {
       onSuccess: (skill) => {
-        invalidateQueries("skills", { exact: true });
+        queryClient.invalidateQueries("skills", { exact: true });
         navigate(`/skills/${skill.id}/`, { replace: true });
       },
     }

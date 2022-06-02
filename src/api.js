@@ -55,6 +55,14 @@ export const fetchLatestReflectionForSkillFacet = ({
     signal,
   });
 
+export const createReflection = (reflection) =>
+  fetchFromApi({
+    includeCredentials: true,
+    method: "POST",
+    path: `/reflections/`,
+    payload: reflection,
+  });
+
 export const createSkill = (skill) =>
   fetchFromApi({
     includeCredentials: true,
