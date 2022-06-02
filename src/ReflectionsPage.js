@@ -52,6 +52,7 @@ const ReflectionsPage = () => {
                     {facet.name}
                   </Typography>
                   {statements &&
+                    skillsByFacetStatements &&
                     statements
                       .filter((s) => s.facet_id === facet.id)
                       .map((statement) => {

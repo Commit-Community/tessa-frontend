@@ -22,7 +22,7 @@ const stickyHeaderStyles = {
 const SkillPage = () => {
   const { id: skillId } = useParams();
   const { isUser, isAnonymous } = useSession();
-  const { data: skill, isLoading: isSkillLoading } = useQuery(
+  const { data: skill, isLoading: isLoadingSkill } = useQuery(
     ["skills", skillId],
     fetchSkill
   );
@@ -32,7 +32,7 @@ const SkillPage = () => {
     <Page>
       <Container sx={{ py: 4 }}>
         <Box mb={10} py={2} sx={stickyHeaderStyles}>
-          {isSkillLoading ? (
+          {isLoadingSkill ? (
             <SkillHeaderSkeleton />
           ) : (
             <SkillHeader
