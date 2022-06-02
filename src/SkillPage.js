@@ -42,12 +42,12 @@ const SkillPage = () => {
               mb={10}
               py={2}
               sx={{
-                background: "linear-gradient(90deg, #0f1011 0%, #010242 100%)",
-                backgroundPosition: "50% 50%",
-                backgroundSize: "100vw 100vh",
+                backgroundImage: "linear-gradient(90deg, #0f1011 0%, #010242 100%)",
+                backgroundPositionX: "50%",
+                backgroundSize: "100vw 100%",
                 position: "sticky",
                 top: 0,
-                zIndex: 2,
+                zIndex: 1,
               }}
             >
               <SkillHeader
@@ -61,7 +61,6 @@ const SkillPage = () => {
                 container
                 columnSpacing={3}
                 rowSpacing={9}
-                sx={{ position: "relative", zIndex: 1 }}
               >
                 {facets.map((facet) => {
                   const facetRecommendations = skill.recommendations.filter(
