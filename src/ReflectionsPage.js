@@ -8,14 +8,16 @@ import {
 } from "@mui/material";
 import { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
+import { useQuery } from "react-query";
 
 import Page from "./Page";
 import SessionContext from "./SessionContext";
 import useApiData from "./useApiData";
+import { fetchSkills } from "./api";
 
 const ReflectionsPage = () => {
   const { isAnonymous, isUser } = useContext(SessionContext);
-  const { data: skills } = useApiData({ path: `/skills` });
+  const { data: skills } = useQuery("skills", fetchSkills);
   const { data: facets } = useApiData({ path: `/facets` });
   const { data: statements } = useApiData({ path: `/statements` });
   const { data: skillsByFacetStatements } = useApiData({
