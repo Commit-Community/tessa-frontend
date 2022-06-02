@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useMutation, useQueryClient } from "react-query";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
 import ClickWrapAgreement from "./ClickWrapAgreement";
 import useSession from "./useSession";
@@ -100,21 +100,21 @@ const SkillHeader = ({
       </Box>
     </Stack>
   ) : (
-    <Box>
+    <Fragment>
       <Typography component="h1" variant="h3" mb>
-        {name}
+        <Box component="span" mr={2}>
+          {name}
+        </Box>
+        {isAuthor && (
+          <Button onClick={() => setIsEditing(true)} size="small">
+            Edit
+          </Button>
+        )}
       </Typography>
       <Typography variant="body1" sx={{ maxWidth: "30em" }}>
         {description}
       </Typography>
-      {isAuthor && (
-        <Box my={2}>
-          <Button onClick={() => setIsEditing(true)} size="small">
-            Edit Skill
-          </Button>
-        </Box>
-      )}
-    </Box>
+    </Fragment>
   );
 };
 
