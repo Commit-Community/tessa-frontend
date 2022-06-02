@@ -18,6 +18,7 @@ import {
 } from "./api";
 import Page from "./Page";
 import useSession from "./useSession";
+import SignInButton from "./SignInButton";
 
 const ReflectionsPage = () => {
   const { isAnonymous, isUser } = useSession();
@@ -110,8 +111,13 @@ const ReflectionsPage = () => {
         {isAnonymous && (
           <Alert severity="info" variant="filled">
             <AlertTitle>You must be signed in to use this feature</AlertTitle>
-            Only users who are signed in can save reflections. Links to skills
-            with saved reflections are shown here.
+            <p>
+              Users who are signed in can save reflections. Links to skills with
+              saved reflections are shown here.
+            </p>
+            <p>
+              <SignInButton size="small" variant="contained" />
+            </p>
           </Alert>
         )}
       </Container>

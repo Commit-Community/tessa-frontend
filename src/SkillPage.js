@@ -1,4 +1,10 @@
-import { Box, Container, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  Link as MuiLink,
+  Typography,
+} from "@mui/material";
 import { Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
@@ -9,6 +15,7 @@ import Recommendation from "./Recommendation";
 import Reflection from "./Reflection";
 import SkillHeader, { SkillHeaderSkeleton } from "./SkillHeader";
 import useSession from "./useSession";
+import { signInURL } from "./SignInButton";
 
 const stickyHeaderStyles = {
   backgroundImage: "linear-gradient(90deg, #0f1011 0%, #010242 100%)",
@@ -72,7 +79,8 @@ const SkillPage = () => {
                         color="primary"
                         sx={{ mt: 2 }}
                       >
-                        Sign in to save your response.
+                        <MuiLink href={signInURL}>Sign in</MuiLink> to save your
+                        response.
                       </Typography>
                     )}
                   </Grid>

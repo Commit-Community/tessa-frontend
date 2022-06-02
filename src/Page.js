@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 
 import logo from "./logo.svg";
 import useSession from "./useSession";
+import SignInButton from "./SignInButton";
 
 const darkTheme = responsiveFontSizes(
   createTheme({
@@ -107,13 +108,7 @@ const Page = ({ children }) => {
             </Stack>
           ) : (
             <Box>
-              <Button
-                component="a"
-                href={`${process.env.REACT_APP_API_ORIGIN}/auth/github/login`}
-                variant="contained"
-              >
-                Sign in with GitHub
-              </Button>
+              <SignInButton variant="contained" />
             </Box>
           )}
         </Stack>
