@@ -5,37 +5,28 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import useApiData from "./useApiData";
-import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+
+import { createReflection, fetchLatestReflectionForSkillFacet } from "./api";
 
 const Reflection = ({ disabled, skillId, facetId, statements }) => {
-  const [lastUpdatedAt, setLastUpdatedAt] = useState(Date.now());
-  const [isSaving, setIsSaving] = useState(false);
-  const { data: latestReflectionForSkillFacet, isLoading } = useApiData({
-    deps: [lastUpdatedAt],
-    path: `/reflections/latest/skills/${skillId}/facets/${facetId}`,
-  });
-  const saveReflection = (event) => {
-    setIsSaving(true);
-    const newStatementId = event.target.value;
-    fetch(`${process.env.REACT_APP_API_ORIGIN}/reflections`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
+  const queryClient = useQueryClient();
+  const queryKey = ["latestReflectionForSkillFacet", skillId, facetId];
+  const { data: reflection, isLoading: isLoadingData } = useQuery(
+    queryKey,
+    fetchLatestReflectionForSkillFacet
+  );
+  const { isLoading: isLoadingMutation, mutate } = useMutation(
+    createReflection,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(queryKey);
+        queryClient.invalidateQueries("skillsByFacetStatements");
       },
-      body: JSON.stringify({
-        skill_id: skillId,
-        facet_id: facetId,
-        statement_id: newStatementId,
-      }),
-    }).then(() => {
-      setIsSaving(false);
-      setLastUpdatedAt(Date.now());
-    });
-  };
+    }
+  );
   return (
-    <FormControl disabled={disabled || isLoading || isSaving}>
+    <FormControl disabled={disabled || isLoadingData || isLoadingMutation}>
       <FormLabel
         id={`skill-${skillId}-facet-${facetId}-statements`}
         sx={{ mb: 1 }}
@@ -45,12 +36,14 @@ const Reflection = ({ disabled, skillId, facetId, statements }) => {
       <RadioGroup
         aria-labelledby={`skill-${skillId}-facet-${facetId}-statements`}
         name={`skill-${skillId}-facet-${facetId}-statement`}
-        onChange={saveReflection}
-        value={
-          latestReflectionForSkillFacet
-            ? latestReflectionForSkillFacet.statement_id
-            : null
+        onChange={(event) =>
+          mutate({
+            skill_id: skillId,
+            facet_id: facetId,
+            statement_id: event.target.value,
+          })
         }
+        value={reflection ? reflection.statement_id : null}
       >
         {statements.map((statement) => (
           <FormControlLabel

@@ -1,21 +1,31 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import HomePage from "./HomePage";
 import NewSkillPage from "./NewSkillPage";
 import PrivacyPolicyPage from "./PrivacyPolicyPage";
 import ReflectionsPage from "./ReflectionsPage";
 import reportWebVitals from "./reportWebVitals";
-import { SessionProvider } from "./SessionContext";
 import SkillPage from "./SkillPage";
 import SkillsPage from "./SkillsPage";
 import TermsOfUsePage from "./TermsOfUsePage";
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <React.StrictMode>
-    <SessionProvider>
+    <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -27,7 +37,7 @@ root.render(
           <Route path="/terms-of-use/" element={<TermsOfUsePage />} />
         </Routes>
       </BrowserRouter>
-    </SessionProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

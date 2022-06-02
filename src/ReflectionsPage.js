@@ -6,21 +6,28 @@ import {
   Link as MuiLink,
   Typography,
 } from "@mui/material";
-import { Fragment, useContext } from "react";
+import { Fragment } from "react";
 import { Link } from "react-router-dom";
+import { useQuery } from "react-query";
 
+import {
+  fetchFacets,
+  fetchSkills,
+  fetchSkillsByFacetStatements,
+  fetchStatements,
+} from "./api";
 import Page from "./Page";
-import SessionContext from "./SessionContext";
-import useApiData from "./useApiData";
+import useSession from "./useSession";
 
 const ReflectionsPage = () => {
-  const { isAnonymous, isUser } = useContext(SessionContext);
-  const { data: skills } = useApiData({ path: `/skills` });
-  const { data: facets } = useApiData({ path: `/facets` });
-  const { data: statements } = useApiData({ path: `/statements` });
-  const { data: skillsByFacetStatements } = useApiData({
-    path: `/reflections/latest/skills-by-facet-statements`,
-  });
+  const { isAnonymous, isUser } = useSession();
+  const { data: skills } = useQuery("skills", fetchSkills);
+  const { data: facets } = useQuery("facets", fetchFacets);
+  const { data: statements } = useQuery("statements", fetchStatements);
+  const { data: skillsByFacetStatements } = useQuery(
+    "skillsByFacetStatements",
+    fetchSkillsByFacetStatements
+  );
   return (
     <Page>
       <Container sx={{ py: 6 }}>
@@ -45,6 +52,7 @@ const ReflectionsPage = () => {
                     {facet.name}
                   </Typography>
                   {statements &&
+                    skillsByFacetStatements &&
                     statements
                       .filter((s) => s.facet_id === facet.id)
                       .map((statement) => {

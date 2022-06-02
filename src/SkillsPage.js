@@ -8,20 +8,20 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useQuery } from "react-query";
 
 import Page from "./Page";
-import useApiData from "./useApiData";
-import SessionContext from "./SessionContext";
+import { fetchSkills } from "./api";
+import useSession from "./useSession";
 
 const SkillsPage = () => {
-  const { isAuthor } = useContext(SessionContext);
-  const { data: skills, error, isLoading } = useApiData({ path: "/skills/" });
+  const { isAuthor } = useSession();
+  const { data: skills, isError, isLoading } = useQuery("skills", fetchSkills);
   return (
     <Page>
       <Container sx={{ py: 6 }}>
         {isLoading && "Loading..."}
-        {error && "There was an error loading the page."}
+        {isError && "There was an error loading the page."}
         {skills && (
           <>
             <Typography component="h1" variant="h3" mb>

@@ -8,43 +8,28 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 import Page from "./Page";
 import ClickWrapAgreement from "./ClickWrapAgreement";
-import { useState } from "react";
+import { createSkill } from "./api";
 
 const NewSkillPage = () => {
   const navigate = useNavigate();
-  const [isSaving, setIsSaving] = useState();
-  const [error, setError] = useState(null);
+  const queryClient = useQueryClient();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const handleCreate = () => {
-    setIsSaving(true);
-    fetch(`${process.env.REACT_APP_API_ORIGIN}/skills`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
+  const { error, isError, isLoading, mutate, reset } = useMutation(
+    createSkill,
+    {
+      onSuccess: (skill) => {
+        queryClient.invalidateQueries("skills", { exact: true });
+        navigate(`/skills/${skill.id}/`, { replace: true });
       },
-      body: JSON.stringify({ name, description }),
-    })
-      .then((res) => res.json())
-      .then(
-        ({ data: skill, error }) => {
-          setIsSaving(false);
-          setError(error);
-          if (!error && skill) {
-            navigate(`/skills/${skill.id}/`, { replace: true });
-          }
-        },
-        (err) => {
-          setIsSaving(false);
-          setError(err);
-        }
-      );
-  };
+    }
+  );
   return (
     <Page>
       <Container sx={{ py: 6 }}>
@@ -66,7 +51,7 @@ const NewSkillPage = () => {
               fullWidth
               label="Skill name"
               variant="filled"
-              disabled={isSaving}
+              disabled={isLoading}
               InputProps={{ style: { fontSize: 22 } }}
               InputLabelProps={{ style: { fontSize: 22 } }}
               value={name}
@@ -97,7 +82,7 @@ const NewSkillPage = () => {
               variant="filled"
               multiline
               rows={2}
-              disabled={isSaving}
+              disabled={isLoading}
               value={description}
               onChange={(event) => setDescription(event.target.value)}
             />
@@ -124,13 +109,9 @@ const NewSkillPage = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <Paper variant="outlined">
-              {error && (
+              {isError && (
                 <Box px={2.5} pt={2.5}>
-                  <Alert
-                    severity="error"
-                    variant="outlined"
-                    onClose={() => setError()}
-                  >
+                  <Alert severity="error" variant="outlined" onClose={reset}>
                     {error.message}
                   </Alert>
                 </Box>
@@ -141,8 +122,8 @@ const NewSkillPage = () => {
               <Box px={2.5} pb={2.5}>
                 <Button
                   variant="contained"
-                  onClick={handleCreate}
-                  disabled={isSaving}
+                  onClick={() => mutate({ name, description })}
+                  disabled={isLoading}
                 >
                   Create Skill
                 </Button>

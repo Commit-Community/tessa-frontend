@@ -8,102 +8,76 @@ import {
   Typography,
 } from "@mui/material";
 import MarkdownIt from "markdown-it";
-import { useState, useContext } from "react";
+import { useMutation, useQueryClient } from "react-query";
+import { useState } from "react";
 
 import ClickWrapAgreement from "./ClickWrapAgreement";
-import SessionContext from "./SessionContext";
+import { saveRecommendation } from "./api";
+import useSession from "./useSession";
 
 const md = new MarkdownIt();
 
 const Recommendation = ({
-  id: defaultId,
+  id,
   markdown: defaultMarkdown,
   prompt,
   skillId,
   facetId,
-  onSave,
 }) => {
-  const { isAuthor } = useContext(SessionContext);
+  const { isAuthor } = useSession();
+  const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
-  const [id, setId] = useState(defaultId);
   const [markdown, setMarkdown] = useState(defaultMarkdown);
-  const [isSaving, setIsSaving] = useState(false);
-  const [saveError, setSaveError] = useState();
-  const handleSave = () => {
-    setIsSaving(true);
-    const url = id
-      ? `${process.env.REACT_APP_API_ORIGIN}/recommendations/${id}`
-      : `${process.env.REACT_APP_API_ORIGIN}/recommendations`;
-    const method = id ? "PUT" : "POST";
-    const body = id
-      ? JSON.stringify({ markdown })
-      : JSON.stringify({ markdown, skill_id: skillId, facet_id: facetId });
-    fetch(url, {
-      method,
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
+  const { error, isError, isLoading, mutate, reset } = useMutation(
+    saveRecommendation,
+    {
+      onSuccess: () => {
+        setIsEditing(false);
+        queryClient.invalidateQueries(["skills", skillId]);
       },
-      body,
-    })
-      .then((res) => res.json())
-      .then(
-        ({ data, error }) => {
-          if (data) {
-            setId(data.id);
-          }
-          setIsSaving(false);
-          setSaveError(error);
-          if (!error) {
-            setIsEditing(false);
-            if (typeof onSave === "function") {
-              onSave();
-            }
-          }
-        },
-        (error) => {
-          setIsSaving(false);
-          setSaveError(error);
-        }
-      );
-  };
+    }
+  );
   return isEditing ? (
     <Box mb={2}>
       <TextField
-        disabled={isSaving}
+        disabled={isLoading}
         fullWidth
         label={prompt}
         multiline
         rows={10}
         variant="filled"
         value={markdown}
-        onChange={(event) => {
-          setMarkdown(event.target.value);
-        }}
+        onChange={(event) => setMarkdown(event.target.value)}
       />
-      {saveError && (
+      {isError && (
         <Alert
           severity="error"
           variant="outlined"
-          onClose={() => setSaveError()}
+          onClose={reset}
           sx={{ mt: 1 }}
         >
-          {saveError.message}
+          {error.message}
         </Alert>
       )}
       <ClickWrapAgreement buttonLabel="Save" justifyContent="flex-end" />
       <Stack justifyContent="flex-end" direction="row" spacing={1}>
         <Button
-          disabled={isSaving}
-          onClick={() => setIsEditing(false)}
+          disabled={isLoading}
+          onClick={() => {
+            setMarkdown(defaultMarkdown);
+            setIsEditing(false);
+            reset();
+          }}
           variant="outlined"
           size="small"
         >
           Cancel
         </Button>
         <Button
-          disabled={isSaving}
-          onClick={handleSave}
+          disabled={isLoading}
+          onClick={() =>
+            mutate({ id, markdown, skill_id: skillId, facet_id: facetId })
+          }
           variant="contained"
           size="small"
         >
