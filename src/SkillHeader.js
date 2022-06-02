@@ -2,6 +2,7 @@ import {
   Alert,
   Box,
   Button,
+  Skeleton,
   Stack,
   TextField,
   Typography,
@@ -12,6 +13,17 @@ import { useState } from "react";
 import ClickWrapAgreement from "./ClickWrapAgreement";
 import useSession from "./useSession";
 import { updateSkill } from "./api";
+
+export const SkillHeaderSkeleton = () => (
+  <Box>
+    <Typography component="h1" variant="h3" mb>
+      <Skeleton />
+    </Typography>
+    <Typography variant="body1" sx={{ maxWidth: "30em" }}>
+      <Skeleton />
+    </Typography>
+  </Box>
+);
 
 const SkillHeader = ({
   id,
