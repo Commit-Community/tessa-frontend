@@ -5,16 +5,19 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import useApiData from "./useApiData";
+import { useQuery, useQueryClient } from "react-query";
 import { useState } from "react";
 
+import { fetchLatestReflectionForSkillFacet } from "./api";
+
 const Reflection = ({ disabled, skillId, facetId, statements }) => {
-  const [lastUpdatedAt, setLastUpdatedAt] = useState(Date.now());
+  const queryClient = useQueryClient();
   const [isSaving, setIsSaving] = useState(false);
-  const { data: latestReflectionForSkillFacet, isLoading } = useApiData({
-    deps: [lastUpdatedAt],
-    path: `/reflections/latest/skills/${skillId}/facets/${facetId}`,
-  });
+  const queryKey = ["latestReflectionForSkillFacet", skillId, facetId];
+  const { data: latestReflectionForSkillFacet, isLoading } = useQuery(
+    queryKey,
+    fetchLatestReflectionForSkillFacet
+  );
   const saveReflection = (event) => {
     setIsSaving(true);
     const newStatementId = event.target.value;
@@ -31,7 +34,7 @@ const Reflection = ({ disabled, skillId, facetId, statements }) => {
       }),
     }).then(() => {
       setIsSaving(false);
-      setLastUpdatedAt(Date.now());
+      queryClient.invalidateQueries(queryKey);
     });
   };
   return (

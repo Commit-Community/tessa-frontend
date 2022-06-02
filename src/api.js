@@ -19,3 +19,29 @@ export const fetchAuthSession = ({ signal }) =>
 
 export const fetchSkills = ({ signal }) =>
   fetchApiData({ path: "/skills/", signal });
+
+export const fetchSkill = ({ queryKey: [_, skillId], signal }) =>
+  fetchApiData({ path: `/skills/${skillId}/`, signal });
+
+export const fetchFacets = ({ signal }) =>
+  fetchApiData({ path: "/facets/", signal });
+
+export const fetchStatements = ({ signal }) =>
+  fetchApiData({ path: "/statements/", signal });
+
+export const fetchSkillsByFacetStatements = ({ signal }) =>
+  fetchApiData({
+    includeCredentials: true,
+    path: "/reflections/latest/skills-by-facet-statements/",
+    signal,
+  });
+
+export const fetchLatestReflectionForSkillFacet = ({
+  queryKey: [_, skillId, facetId],
+  signal,
+}) =>
+  fetchApiData({
+    includeCredentials: true,
+    path: `/reflections/latest/skills/${skillId}/facets/${facetId}/`,
+    signal,
+  });

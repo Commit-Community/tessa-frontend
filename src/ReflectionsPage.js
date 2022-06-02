@@ -10,19 +10,24 @@ import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 
-import { fetchSkills } from "./api";
+import {
+  fetchFacets,
+  fetchSkills,
+  fetchSkillsByFacetStatements,
+  fetchStatements,
+} from "./api";
 import Page from "./Page";
-import useApiData from "./useApiData";
 import useSession from "./useSession";
 
 const ReflectionsPage = () => {
   const { isAnonymous, isUser } = useSession();
   const { data: skills } = useQuery("skills", fetchSkills);
-  const { data: facets } = useApiData({ path: `/facets` });
-  const { data: statements } = useApiData({ path: `/statements` });
-  const { data: skillsByFacetStatements } = useApiData({
-    path: `/reflections/latest/skills-by-facet-statements`,
-  });
+  const { data: facets } = useQuery("facets", fetchFacets);
+  const { data: statements } = useQuery("statements", fetchStatements);
+  const { data: skillsByFacetStatements } = useQuery(
+    "skillsByFacetStatements",
+    fetchSkillsByFacetStatements
+  );
   return (
     <Page>
       <Container sx={{ py: 6 }}>

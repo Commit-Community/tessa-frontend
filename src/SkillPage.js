@@ -1,9 +1,10 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { Fragment, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
 
+import { fetchFacets, fetchSkill, fetchStatements } from "./api";
 import Page from "./Page";
-import useApiData from "./useApiData";
 import Recommendation from "./Recommendation";
 import Reflection from "./Reflection";
 import SkillHeader from "./SkillHeader";
@@ -15,19 +16,19 @@ const SkillPage = () => {
   const [lastUpdatedAt, setLastUpdatedAt] = useState(Date.now());
   const {
     data: skill,
-    skillError,
-    isSkillLoading,
-  } = useApiData({ path: `/skills/${skillId}`, deps: [lastUpdatedAt] });
+    error: skillError,
+    isLoading: isSkillLoading,
+  } = useQuery(["skill", skillId], fetchSkill);
   const {
     data: facets,
-    facetsError,
-    isFacetsLoading,
-  } = useApiData({ path: `/facets` });
+    error: facetsError,
+    isLoading: isFacetsLoading,
+  } = useQuery("facets", fetchFacets);
   const {
     data: statements,
-    statementsError,
-    isStatementsLoading,
-  } = useApiData({ path: `/statements` });
+    error: statementsError,
+    isLoading: isStatementsLoading,
+  } = useQuery("statements", fetchStatements);
   return (
     <Page>
       <Container sx={{ py: 4 }}>
