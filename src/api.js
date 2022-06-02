@@ -1,4 +1,4 @@
-const fetchApiData = async ({
+const fetchFromApi = async ({
   includeCredentials = false,
   method = "GET",
   path,
@@ -20,26 +20,26 @@ const fetchApiData = async ({
 };
 
 export const fetchAuthSession = ({ signal }) =>
-  fetchApiData({
+  fetchFromApi({
     includeCredentials: true,
     path: "/auth/session/",
     signal,
   });
 
 export const fetchSkills = ({ signal }) =>
-  fetchApiData({ path: "/skills/", signal });
+  fetchFromApi({ path: "/skills/", signal });
 
 export const fetchSkill = ({ queryKey: [_, skillId], signal }) =>
-  fetchApiData({ path: `/skills/${skillId}/`, signal });
+  fetchFromApi({ path: `/skills/${skillId}/`, signal });
 
 export const fetchFacets = ({ signal }) =>
-  fetchApiData({ path: "/facets/", signal });
+  fetchFromApi({ path: "/facets/", signal });
 
 export const fetchStatements = ({ signal }) =>
-  fetchApiData({ path: "/statements/", signal });
+  fetchFromApi({ path: "/statements/", signal });
 
 export const fetchSkillsByFacetStatements = ({ signal }) =>
-  fetchApiData({
+  fetchFromApi({
     includeCredentials: true,
     path: "/reflections/latest/skills-by-facet-statements/",
     signal,
@@ -49,16 +49,24 @@ export const fetchLatestReflectionForSkillFacet = ({
   queryKey: [_, skillId, facetId],
   signal,
 }) =>
-  fetchApiData({
+  fetchFromApi({
     includeCredentials: true,
     path: `/reflections/latest/skills/${skillId}/facets/${facetId}/`,
     signal,
   });
 
+export const createSkill = (skill) =>
+  fetchFromApi({
+    includeCredentials: true,
+    method: "POST",
+    path: `/skills/`,
+    payload: skill,
+  });
+
 export const updateSkill = (skill) =>
-  fetchApiData({
+  fetchFromApi({
     includeCredentials: true,
     method: "PUT",
-    path: `/skills/${skill.id}`,
+    path: `/skills/${skill.id}/`,
     payload: skill,
   });

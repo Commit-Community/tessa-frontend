@@ -19,7 +19,7 @@ const SkillHeader = ({
   description: defaultDescription,
 }) => {
   const { isAuthor } = useSession();
-  const queryClient = useQueryClient();
+  const { invalidateQueries } = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(defaultName);
   const [description, setDescription] = useState(defaultDescription);
@@ -28,8 +28,8 @@ const SkillHeader = ({
     {
       onSuccess: () => {
         setIsEditing(false);
-        queryClient.invalidateQueries("skills", { exact: true });
-        queryClient.invalidateQueries(["skills", id]);
+        invalidateQueries("skills", { exact: true });
+        invalidateQueries(["skills", id]);
       },
     }
   );
