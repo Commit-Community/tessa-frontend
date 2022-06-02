@@ -6,17 +6,17 @@ import {
   Link as MuiLink,
   Typography,
 } from "@mui/material";
-import { Fragment, useContext } from "react";
+import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 
-import Page from "./Page";
-import SessionContext from "./SessionContext";
-import useApiData from "./useApiData";
 import { fetchSkills } from "./api";
+import Page from "./Page";
+import useApiData from "./useApiData";
+import useSession from "./useSession";
 
 const ReflectionsPage = () => {
-  const { isAnonymous, isUser } = useContext(SessionContext);
+  const { isAnonymous, isUser } = useSession();
   const { data: skills } = useQuery("skills", fetchSkills);
   const { data: facets } = useApiData({ path: `/facets` });
   const { data: statements } = useApiData({ path: `/statements` });

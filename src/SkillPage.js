@@ -1,17 +1,17 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
-import { Fragment, useContext, useState } from "react";
+import { Fragment, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Page from "./Page";
 import useApiData from "./useApiData";
 import Recommendation from "./Recommendation";
 import Reflection from "./Reflection";
-import SessionContext from "./SessionContext";
 import SkillHeader from "./SkillHeader";
+import useSession from "./useSession";
 
 const SkillPage = () => {
   const { id: skillId } = useParams();
-  const { isUser, isAnonymous } = useContext(SessionContext);
+  const { isUser, isAnonymous } = useSession();
   const [lastUpdatedAt, setLastUpdatedAt] = useState(Date.now());
   const {
     data: skill,

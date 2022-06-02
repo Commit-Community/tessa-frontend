@@ -8,7 +8,6 @@ import NewSkillPage from "./NewSkillPage";
 import PrivacyPolicyPage from "./PrivacyPolicyPage";
 import ReflectionsPage from "./ReflectionsPage";
 import reportWebVitals from "./reportWebVitals";
-import { SessionProvider } from "./SessionContext";
 import SkillPage from "./SkillPage";
 import SkillsPage from "./SkillsPage";
 import TermsOfUsePage from "./TermsOfUsePage";
@@ -26,21 +25,19 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <SessionProvider>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/skills/" element={<SkillsPage />} />
-            <Route path="/skills/:id/" element={<SkillPage />} />
-            <Route path="/new-skill/" element={<NewSkillPage />} />
-            <Route path="/reflections/" element={<ReflectionsPage />} />
-            <Route path="/privacy-policy/" element={<PrivacyPolicyPage />} />
-            <Route path="/terms-of-use/" element={<TermsOfUsePage />} />
-          </Routes>
-        </BrowserRouter>
-      </QueryClientProvider>
-    </SessionProvider>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/skills/" element={<SkillsPage />} />
+          <Route path="/skills/:id/" element={<SkillPage />} />
+          <Route path="/new-skill/" element={<NewSkillPage />} />
+          <Route path="/reflections/" element={<ReflectionsPage />} />
+          <Route path="/privacy-policy/" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-of-use/" element={<TermsOfUsePage />} />
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

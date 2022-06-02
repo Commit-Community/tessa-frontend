@@ -1,12 +1,21 @@
-const apiUrl = (path) => `${process.env.REACT_APP_API_ORIGIN}${path}`;
-
-const fetchApiData = ({ path, includeCredentials = false, signal }) =>
-  fetch(apiUrl(path), {
+const fetchApiData = async ({ path, includeCredentials = false, signal }) => {
+  const response = await fetch(`${process.env.REACT_APP_API_ORIGIN}${path}`, {
     credentials: includeCredentials ? "include" : "omit",
     signal,
-  })
-    .then((res) => res.json())
-    .then(({ data, error }) => (error ? Promise.reject(error) : data));
+  });
+  const { data, error } = await response.json();
+  if (error) {
+    throw error;
+  }
+  return data;
+};
 
-export const fetchSkills = async ({ signal }) =>
+export const fetchAuthSession = ({ signal }) =>
+  fetchApiData({
+    includeCredentials: true,
+    path: "/auth/session/",
+    signal,
+  });
+
+export const fetchSkills = ({ signal }) =>
   fetchApiData({ path: "/skills/", signal });

@@ -8,10 +8,10 @@ import {
   Typography,
 } from "@mui/material";
 import MarkdownIt from "markdown-it";
-import { useState, useContext } from "react";
+import { useState } from "react";
 
 import ClickWrapAgreement from "./ClickWrapAgreement";
-import SessionContext from "./SessionContext";
+import useSession from "./useSession";
 
 const md = new MarkdownIt();
 
@@ -23,7 +23,7 @@ const Recommendation = ({
   facetId,
   onSave,
 }) => {
-  const { isAuthor } = useContext(SessionContext);
+  const { isAuthor } = useSession();
   const [isEditing, setIsEditing] = useState(false);
   const [id, setId] = useState(defaultId);
   const [markdown, setMarkdown] = useState(defaultMarkdown);

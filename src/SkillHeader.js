@@ -6,10 +6,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useContext, useState } from "react";
+import { useState } from "react";
 
-import SessionContext from "./SessionContext";
 import ClickWrapAgreement from "./ClickWrapAgreement";
+import useSession from "./useSession";
 
 const SkillHeader = ({
   id,
@@ -19,7 +19,7 @@ const SkillHeader = ({
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState();
-  const { isAuthor } = useContext(SessionContext);
+  const { isAuthor } = useSession();
   const [name, setName] = useState(defaultName);
   const [description, setDescription] = useState(defaultDescription);
   const handleSave = () => {

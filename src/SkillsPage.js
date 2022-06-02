@@ -8,15 +8,14 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
 import { useQuery } from "react-query";
 
 import Page from "./Page";
-import SessionContext from "./SessionContext";
 import { fetchSkills } from "./api";
+import useSession from "./useSession";
 
 const SkillsPage = () => {
-  const { isAuthor } = useContext(SessionContext);
+  const { isAuthor } = useSession();
   const { data: skills, isError, isLoading } = useQuery("skills", fetchSkills);
   return (
     <Page>

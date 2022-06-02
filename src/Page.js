@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import {
   Box,
   Button,
@@ -15,7 +14,7 @@ import {
 import { Link } from "react-router-dom";
 
 import logo from "./logo.svg";
-import SessionContext from "./SessionContext";
+import useSession from "./useSession";
 
 const darkTheme = responsiveFontSizes(
   createTheme({
@@ -36,7 +35,7 @@ const darkTheme = responsiveFontSizes(
 );
 
 const Page = ({ children }) => {
-  const { error, isLoading, session } = useContext(SessionContext);
+  const { isAuthenticated, isLoading, session } = useSession();
   return (
     <ThemeProvider theme={darkTheme}>
       <GlobalStyles
@@ -93,7 +92,7 @@ const Page = ({ children }) => {
               </MuiLink>
             </Typography>
           </Stack>
-          {isLoading || error || !session ? null : session.user_id ? (
+          {isLoading ? null : isAuthenticated ? (
             <Stack alignItems="center" direction="row">
               <Typography variant="button" mr={3}>
                 Hi, {session.github_username}
