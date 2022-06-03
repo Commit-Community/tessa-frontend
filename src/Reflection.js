@@ -12,21 +12,29 @@ import { createReflection, fetchLatestReflectionForSkillFacet } from "./api";
 const Reflection = ({ disabled, skillId, facetId, statements }) => {
   const queryClient = useQueryClient();
   const queryKey = ["latestReflectionForSkillFacet", skillId, facetId];
-  const { data: reflection, isLoading: isLoadingData } = useQuery(
+  const { data: reflection, isLoading } = useQuery(
     queryKey,
     fetchLatestReflectionForSkillFacet
   );
-  const { isLoading: isLoadingMutation, mutate } = useMutation(
-    createReflection,
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(queryKey);
-        queryClient.invalidateQueries("skillsByFacetStatements");
-      },
-    }
-  );
+  const { mutate } = useMutation(createReflection, {
+    onMutate: async (newReflection) => {
+      await queryClient.cancelQueries(queryKey);
+      const previousReflection = queryClient.getQueryData(queryKey);
+      queryClient.setQueryData(queryKey, newReflection);
+      return { newReflection, previousReflection };
+    },
+    onError: (err, newReflection, context) => {
+      queryClient.setQueryData(queryKey, context.previousReflection);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("skillsByFacetStatements");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(queryKey);
+    },
+  });
   return (
-    <FormControl disabled={disabled || isLoadingData || isLoadingMutation}>
+    <FormControl disabled={disabled || isLoading}>
       <FormLabel
         id={`skill-${skillId}-facet-${facetId}-statements`}
         sx={{ mb: 1 }}
