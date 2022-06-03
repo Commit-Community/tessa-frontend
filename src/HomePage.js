@@ -18,13 +18,22 @@ const HomePage = () => (
             component="h1"
             variant="h6"
             textAlign="center"
-            mt={12}
-            mb={6}
-            sx={{ textTransform: "uppercase" }}
+            sx={(theme) => ({
+              textTransform: "uppercase",
+              my: 6,
+              [theme.breakpoints.up("sm")]: { mt: 12 },
+            })}
           >
             Technologist Essential Skills Self-Awareness
           </Typography>
-          <Typography variant="h2" textAlign="center" my={12}>
+          <Typography
+            variant="h2"
+            textAlign="center"
+            sx={(theme) => ({
+              my: 6,
+              [theme.breakpoints.up("sm")]: { my: 12 },
+            })}
+          >
             A tool for technologists to grow their careers faster.
           </Typography>
           <Typography
