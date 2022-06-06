@@ -18,7 +18,11 @@ import useSession from "./useSession";
 
 const SkillsPage = () => {
   const { isAuthor } = useSession();
-  const { data: skills, isLoading } = useQuery("skills", fetchSkills);
+  const {
+    data: skills,
+    isLoading,
+    isSuccess,
+  } = useQuery("skills", fetchSkills);
   return (
     <Page>
       <Container sx={{ py: 6 }}>
@@ -30,7 +34,7 @@ const SkillsPage = () => {
           in TESSA.
         </Typography>
         <Grid container spacing={2} sx={{ my: 3 }}>
-          {isLoading ? (
+          {isLoading && (
             <Fragment>
               <Grid item xs={12} md={6} lg={4}>
                 <Skeleton height={220} variant="rectangular" />
@@ -42,7 +46,8 @@ const SkillsPage = () => {
                 <Skeleton height={220} variant="rectangular" />
               </Grid>
             </Fragment>
-          ) : (
+          )}
+          {isSuccess &&
             skills.map((skill) => (
               <Grid item key={skill.id} xs={12} md={6} lg={4}>
                 <Card variant="outlined" sx={{ p: 3 }}>
@@ -81,8 +86,7 @@ const SkillsPage = () => {
                   </Typography>
                 </Card>
               </Grid>
-            ))
-          )}
+            ))}
           {isAuthor && (
             <Grid item xs={12} md={6} lg={4}>
               <Box display="flex" justifyContent="center">
