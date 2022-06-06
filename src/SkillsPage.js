@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertTitle,
   Box,
   Button,
   Card,
@@ -20,6 +22,7 @@ const SkillsPage = () => {
   const { isAuthor } = useSession();
   const {
     data: skills,
+    isError,
     isLoading,
     isSuccess,
   } = useQuery("skills", fetchSkills);
@@ -46,6 +49,17 @@ const SkillsPage = () => {
                 <Skeleton height={220} variant="rectangular" />
               </Grid>
             </Fragment>
+          )}
+          {isError && (
+            <Grid item xs={12} sm={6}>
+              <Alert severity="error" variant="outlined">
+                <AlertTitle>Failed to fetch skills list</AlertTitle>
+                <p>
+                  A problem occurred when trying to fetch the list of skills.
+                  You can refresh the page to try again.
+                </p>
+              </Alert>
+            </Grid>
           )}
           {isSuccess &&
             skills.map((skill) => (
