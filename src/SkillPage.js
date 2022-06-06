@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertTitle,
   Box,
   Container,
   Grid,
@@ -29,19 +31,29 @@ const stickyHeaderStyles = {
 const SkillPage = () => {
   const { id: skillId } = useParams();
   const { isUser, isAnonymous } = useSession();
-  const { data: skill, isLoading: isLoadingSkill } = useQuery(
-    ["skills", skillId],
-    fetchSkill
-  );
+  const {
+    data: skill,
+    isError: isErrorSkill,
+    isLoading: isLoadingSkill,
+    isSuccess: isSuccessSkill,
+  } = useQuery(["skills", skillId], fetchSkill);
   const { data: facets } = useQuery("facets", fetchFacets);
   const { data: statements } = useQuery("statements", fetchStatements);
   return (
     <Page>
       <Container sx={{ py: 4 }}>
         <Box mb={10} py={2} sx={stickyHeaderStyles}>
-          {isLoadingSkill ? (
-            <SkillHeaderSkeleton />
-          ) : (
+          {isLoadingSkill && <SkillHeaderSkeleton />}
+          {isErrorSkill && (
+            <Alert severity="error" variant="outlined">
+              <AlertTitle>Failed to fetch skill info</AlertTitle>
+              <p>
+                A problem occurred when trying to fetch the details about this
+                skill. You can refresh the page to try again.
+              </p>
+            </Alert>
+          )}
+          {isSuccessSkill && (
             <SkillHeader
               id={skillId}
               name={skill.name}
