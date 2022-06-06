@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
+import ErrorBoundary from "./ErrorBoundary";
 import HomePage from "./HomePage";
 import NewSkillPage from "./NewSkillPage";
 import PrivacyPolicyPage from "./PrivacyPolicyPage";
@@ -25,19 +26,21 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/skills/" element={<SkillsPage />} />
-          <Route path="/skills/:id/" element={<SkillPage />} />
-          <Route path="/new-skill/" element={<NewSkillPage />} />
-          <Route path="/reflections/" element={<ReflectionsPage />} />
-          <Route path="/privacy-policy/" element={<PrivacyPolicyPage />} />
-          <Route path="/terms-of-use/" element={<TermsOfUsePage />} />
-        </Routes>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/skills/" element={<SkillsPage />} />
+            <Route path="/skills/:id/" element={<SkillPage />} />
+            <Route path="/new-skill/" element={<NewSkillPage />} />
+            <Route path="/reflections/" element={<ReflectionsPage />} />
+            <Route path="/privacy-policy/" element={<PrivacyPolicyPage />} />
+            <Route path="/terms-of-use/" element={<TermsOfUsePage />} />
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </ErrorBoundary>
   </React.StrictMode>
 );
 
