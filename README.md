@@ -51,3 +51,52 @@ Finally, run the server with:
 ```
 npm start
 ```
+
+## GitHub Actions
+
+### Pull Request
+
+Pull requests run a workflow which runs unit tests and checks the code for lint
+before permitting PRs to be merged.
+
+To check your code before merging, use the following commands.
+
+Run unit tests with Jest.
+
+```
+npm test
+```
+
+Check formatting with Prettier.
+
+```
+npm run format
+```
+
+Check for lint with ESLint.
+
+```
+npm run lint
+```
+
+Automatically fix formatting errors.
+
+```
+npm run format:fix
+```
+
+Automatically fix some lint errors.
+
+```
+npm run lint:fix
+```
+
+### CI
+
+This repository has an end-to-end CI/CD pipeline that runs whenever new commits
+are pushed to the `main` branch. It includes the following steps.
+
+1. Checkout
+2. Unit test
+3. Build artifact
+4. Sync artifact to S3
