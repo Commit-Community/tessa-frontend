@@ -127,6 +127,7 @@ const MobileNav = () => {
         </IconButton>
       </Stack>
       <List sx={{ display: isOpen ? "block" : "none" }}>
+        <MobileNavLink label="Home" path="/" />
         <MobileNavLink label="Skills" path="/skills/" />
         <MobileNavLink label="Reflections" path="/reflections/" />
         <Divider />
