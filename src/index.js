@@ -4,6 +4,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 import ErrorBoundary from "./ErrorBoundary";
+import GuideIntroPage from "./GuideIntroPage";
+import GuidePage from "./GuidePage";
 import HomePage from "./HomePage";
 import NewSkillPage from "./NewSkillPage";
 import PrivacyPolicyPage from "./PrivacyPolicyPage";
@@ -12,6 +14,7 @@ import reportWebVitals from "./reportWebVitals";
 import SkillPage from "./SkillPage";
 import SkillsPage from "./SkillsPage";
 import TermsOfUsePage from "./TermsOfUsePage";
+import ScrollToTop from "./ScrollToTop";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,15 +32,19 @@ root.render(
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/skills/" element={<SkillsPage />} />
-            <Route path="/skills/:id/" element={<SkillPage />} />
-            <Route path="/new-skill/" element={<NewSkillPage />} />
-            <Route path="/reflections/" element={<ReflectionsPage />} />
-            <Route path="/privacy-policy/" element={<PrivacyPolicyPage />} />
-            <Route path="/terms-of-use/" element={<TermsOfUsePage />} />
-          </Routes>
+          <ScrollToTop>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/skills/" element={<SkillsPage />} />
+              <Route path="/skills/:id/" element={<SkillPage />} />
+              <Route path="/new-skill/" element={<NewSkillPage />} />
+              <Route path="/reflections/" element={<ReflectionsPage />} />
+              <Route path="/guide/" element={<GuideIntroPage />} />
+              <Route path="/guide/:step/" element={<GuidePage />} />
+              <Route path="/privacy-policy/" element={<PrivacyPolicyPage />} />
+              <Route path="/terms-of-use/" element={<TermsOfUsePage />} />
+            </Routes>
+          </ScrollToTop>
         </BrowserRouter>
       </QueryClientProvider>
     </ErrorBoundary>
