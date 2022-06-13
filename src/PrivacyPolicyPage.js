@@ -1,4 +1,11 @@
-import { Box, Breadcrumbs, Container, Grid, Link as MuiLink, Typography } from "@mui/material";
+import {
+  Box,
+  Breadcrumbs,
+  Container,
+  Grid,
+  Link as MuiLink,
+  Typography,
+} from "@mui/material";
 
 import Page from "./Page";
 import { Link } from "react-router-dom";

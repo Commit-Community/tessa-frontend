@@ -31,7 +31,8 @@ const GuideSkillFacet = ({ skill, facet }) => {
         <Typography color="secondary" component="span" variant="h5">
           {facet.name.toLocaleLowerCase()}
         </Typography>{" "}
-        aspect of the skill<br />
+        aspect of the skill
+        <br />
         <Typography
           color="primary"
           component="span"
