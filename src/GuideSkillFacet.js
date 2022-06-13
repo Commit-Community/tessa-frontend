@@ -1,13 +1,14 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Link as MuiLink, Typography } from "@mui/material";
 import { useQuery } from "react-query";
 
 import { fetchSkill, fetchStatements } from "./api";
 import Reflection from "./Reflection";
 import Recommendation from "./Recommendation";
 import useSession from "./useSession";
+import { signInURL } from "./SignInButton";
 
 const GuideSkillFacet = ({ skill, facet }) => {
-  const { isUser } = useSession();
+  const { isAnonymous, isUser } = useSession();
   const {
     data: skillWithRecommendations,
     isSuccess: isSuccessRecommendations,
@@ -25,32 +26,31 @@ const GuideSkillFacet = ({ skill, facet }) => {
     statements.filter(({ facet_id: facetId }) => facetId === facet.id);
   return (
     <Box mb={6}>
-      <Typography component="h1" variant="h4" mb={2}>
+      <Typography component="h1" variant="h5" mb={9}>
         Reflect on the{" "}
-        <Typography color="primary" component="span" variant="h4">
+        <Typography color="secondary" component="span" variant="h5">
           {facet.name.toLocaleLowerCase()}
         </Typography>{" "}
-        aspect of the skill
+        aspect of the skill<br />
+        <Typography
+          color="primary"
+          component="span"
+          variant="h5"
+          fontWeight="bold"
+        >
+          {skill.name}:
+        </Typography>{" "}
+        <Typography color="primary" component="span" variant="h5">
+          {skill.description}
+        </Typography>
       </Typography>
-      <Typography
-        component="h2"
-        variant="h4"
-        mb={1}
-        fontWeight="bold"
-        color="secondary"
-      >
-        {skill.name}
-      </Typography>
-      <Typography component="p" variant="body1" mb={12} color="secondary">
-        {skill.description}
-      </Typography>
-      <Typography component="p" variant="h6">
-        Ask yourself
+      <Typography component="p" variant="h5" mb>
+        Ask yourself:
       </Typography>
       {isSuccessRecommendations && isSuccessStatements && (
         <>
-          <Box mb={12}>
-            <Typography component="h3" variant="h5" mb={1}>
+          <Box mb={9}>
+            <Typography component="p" variant="body1" mb={3}>
               {facet.recommendation_prompt}
             </Typography>
             {facetRecommendations.length === 0 && (
@@ -81,12 +81,30 @@ const GuideSkillFacet = ({ skill, facet }) => {
               </>
             )}
           </Box>
+          <Typography component="p" variant="h5" mb>
+            Then, about the{" "}
+            <Typography color="secondary" component="span" variant="h5">
+              {facet.name.toLocaleLowerCase()}
+            </Typography>{" "}
+            aspect of the skill, select:
+          </Typography>
           <Reflection
             disabled={!isUser}
             facetId={facet.id}
             skillId={skill.id}
             statements={facetStatements}
           />
+          {isAnonymous && (
+            <Typography
+              component="p"
+              variant="body2"
+              color="primary"
+              sx={{ mt: 2 }}
+            >
+              <MuiLink href={signInURL}>Sign in</MuiLink> to save your
+              reflection.
+            </Typography>
+          )}
         </>
       )}
     </Box>

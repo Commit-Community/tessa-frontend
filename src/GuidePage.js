@@ -1,4 +1,4 @@
-import { Button, Container, Divider, Grid, Stack } from "@mui/material";
+import { Box, Button, Container, Divider, Grid, Stack } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 
@@ -21,12 +21,20 @@ const GuidePage = () => {
     isLoading: isLoadingFacets,
     isSuccess: isSuccessFacets,
   } = useQuery("facets", fetchFacets);
-  let skillIndex, facetIndex, nextStep, nextSkillStep, totalSteps, skill, facet;
+  let skillIndex,
+    facetIndex,
+    nextStep,
+    previousStep,
+    nextSkillStep,
+    totalSteps,
+    skill,
+    facet;
   if (isSuccessFacets && isSuccessSkills) {
     totalSteps = skills.length * facets.length;
     skillIndex = Math.floor((stepNumber - 1) / facets.length);
     facetIndex = (stepNumber - 1) % facets.length;
     nextStep = stepNumber + 1;
+    previousStep = stepNumber - 1;
     nextSkillStep = stepNumber + facets.length - facetIndex;
     skill = skills[skillIndex];
     facet = facets[facetIndex];
@@ -43,45 +51,53 @@ const GuidePage = () => {
             <Grid item xs={12} sm={10} md={8}>
               <GuideSkillFacet skill={skill} facet={facet} />
               <Divider />
-              <Stack
-                justifyContent="flex-end"
-                direction="row"
-                spacing={2}
-                mt={4}
-              >
-                {stepNumber < totalSteps && (
+              <Box display="flex" justifyContent="space-between" mt={4}>
+                <Box>
                   <Button
-                    disabled={nextSkillStep > totalSteps}
+                    disabled={previousStep < 1}
                     component={Link}
                     variant="outlined"
                     size="large"
-                    to={`/guide/${nextSkillStep}/`}
+                    to={`/guide/${previousStep}/`}
                   >
-                    Skip skill
+                    Back
                   </Button>
-                )}
-                {nextStep <= totalSteps && (
-                  <Button
-                    component={Link}
-                    variant="contained"
-                    size="large"
-                    to={`/guide/${nextStep}/`}
-                  >
-                    Next
-                  </Button>
-                )}
-                {stepNumber === totalSteps && (
-                  <Button
-                    component={Link}
-                    variant="contained"
-                    size="large"
-                    color="warning"
-                    to="/reflections/"
-                  >
-                    Finish 🎉
-                  </Button>
-                )}
-              </Stack>
+                </Box>
+                <Stack direction="row" spacing={2}>
+                  {stepNumber < totalSteps && (
+                    <Button
+                      disabled={nextSkillStep > totalSteps}
+                      component={Link}
+                      variant="outlined"
+                      size="large"
+                      to={`/guide/${nextSkillStep}/`}
+                    >
+                      Skip skill
+                    </Button>
+                  )}
+                  {nextStep <= totalSteps && (
+                    <Button
+                      component={Link}
+                      variant="contained"
+                      size="large"
+                      to={`/guide/${nextStep}/`}
+                    >
+                      Next
+                    </Button>
+                  )}
+                  {stepNumber === totalSteps && (
+                    <Button
+                      component={Link}
+                      variant="contained"
+                      size="large"
+                      color="warning"
+                      to="/reflections/"
+                    >
+                      Finish 🎉
+                    </Button>
+                  )}
+                </Stack>
+              </Box>
             </Grid>
           </Grid>
         )}

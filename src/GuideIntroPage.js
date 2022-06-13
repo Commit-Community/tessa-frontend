@@ -13,7 +13,6 @@ const GuideIntroPage = () => (
             variant="h3"
             my={6}
             align="center"
-            color="secondary"
           >
             Welcome to the guided self-reflection tool!
           </Typography>
