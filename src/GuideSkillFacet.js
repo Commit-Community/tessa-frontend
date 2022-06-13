@@ -53,11 +53,6 @@ const GuideSkillFacet = ({ skill, facet }) => {
             <Typography component="p" variant="body1" mb={3}>
               {facet.recommendation_prompt}
             </Typography>
-            {facetRecommendations.length === 0 && (
-              <Typography color="secondary" my={2}>
-                No recommendations have been left for this facet.
-              </Typography>
-            )}
             {facetRecommendations.length > 0 && (
               <>
                 <Typography

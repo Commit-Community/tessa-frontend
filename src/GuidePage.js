@@ -1,4 +1,14 @@
-import { Box, Button, Container, Divider, Grid, Stack } from "@mui/material";
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Container,
+  Divider,
+  Grid,
+  Link as MuiLink,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 
@@ -21,7 +31,8 @@ const GuidePage = () => {
     isLoading: isLoadingFacets,
     isSuccess: isSuccessFacets,
   } = useQuery("facets", fetchFacets);
-  let skillIndex,
+  let isValidStep,
+    skillIndex,
     facetIndex,
     nextStep,
     previousStep,
@@ -31,6 +42,7 @@ const GuidePage = () => {
     facet;
   if (isSuccessFacets && isSuccessSkills) {
     totalSteps = skills.length * facets.length;
+    isValidStep = stepNumber <= totalSteps;
     skillIndex = Math.floor((stepNumber - 1) / facets.length);
     facetIndex = (stepNumber - 1) % facets.length;
     nextStep = stepNumber + 1;
@@ -41,12 +53,28 @@ const GuidePage = () => {
   }
   return (
     <Page>
-      <Container sx={{ py: 12 }}>
+      <Container>
+        <Box mt={3} mb={12}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <MuiLink component={Link} underline="hover" color="inherit" to="/">
+              TESSA
+            </MuiLink>
+            <MuiLink
+              component={Link}
+              underline="hover"
+              color="inherit"
+              to="/guide/"
+            >
+              Guided Self-Reflection
+            </MuiLink>
+            <Typography color="text.primary">Step {step}</Typography>
+          </Breadcrumbs>
+        </Box>
         {(isErrorFacets || isErrorSkills) && (
           <p>There was a problem loading the page. Sorry!</p>
         )}
         {(isLoadingFacets || isLoadingSkills) && <p>Loading...</p>}
-        {isSuccessFacets && isSuccessSkills && (
+        {isValidStep && (
           <Grid container justifyContent="center">
             <Grid item xs={12} sm={10} md={8}>
               <GuideSkillFacet skill={skill} facet={facet} />

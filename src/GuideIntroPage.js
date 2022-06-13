@@ -1,19 +1,30 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Container,
+  Grid,
+  Link as MuiLink,
+  Typography,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 
 import Page from "./Page";
 
 const GuideIntroPage = () => (
   <Page>
-    <Container sx={{ py: 12 }}>
+    <Container>
+      <Box mt={3} mb={12}>
+        <Breadcrumbs aria-label="breadcrumb">
+          <MuiLink component={Link} underline="hover" color="inherit" to="/">
+            TESSA
+          </MuiLink>
+          <Typography color="text.primary">Guided Self-Reflection</Typography>
+        </Breadcrumbs>
+      </Box>
       <Grid container justifyContent="center">
         <Grid item xs={12} md={6}>
-          <Typography
-            component="h1"
-            variant="h3"
-            my={6}
-            align="center"
-          >
+          <Typography component="h1" variant="h3" my={6} align="center">
             Welcome to the guided self-reflection tool!
           </Typography>
           <Typography component="p" variant="h5" align="center">
@@ -28,7 +39,7 @@ const GuideIntroPage = () => (
               variant="contained"
               to="/guide/1/"
             >
-              Begin guided reflection
+              Begin guided self-reflection
             </Button>
           </Box>
         </Grid>

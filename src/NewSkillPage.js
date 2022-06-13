@@ -1,15 +1,17 @@
 import {
   Alert,
   Box,
+  Breadcrumbs,
   Button,
   Container,
   Grid,
+  Link as MuiLink,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
 import { useMutation, useQueryClient } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import Page from "./Page";
@@ -32,7 +34,23 @@ const NewSkillPage = () => {
   );
   return (
     <Page>
-      <Container sx={{ py: 6 }}>
+      <Container>
+        <Box mt={3} mb={12}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <MuiLink component={Link} underline="hover" color="inherit" to="/">
+              TESSA
+            </MuiLink>
+            <MuiLink
+              component={Link}
+              underline="hover"
+              color="inherit"
+              to="/skills/"
+            >
+              Skills
+            </MuiLink>
+            <Typography color="text.primary">New Skill</Typography>
+          </Breadcrumbs>
+        </Box>
         <Typography component="h1" variant="h3" mb>
           Add a new essential skill
         </Typography>
