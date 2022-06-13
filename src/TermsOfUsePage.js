@@ -1,10 +1,26 @@
-import { Container, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Breadcrumbs,
+  Container,
+  Grid,
+  Link as MuiLink,
+  Typography,
+} from "@mui/material";
 
 import Page from "./Page";
+import { Link } from "react-router-dom";
 
 const TermsOfUsePage = () => (
   <Page>
-    <Container sx={{ py: 6 }}>
+    <Container>
+      <Box mt={3} mb={12}>
+        <Breadcrumbs aria-label="breadcrumb">
+          <MuiLink component={Link} underline="hover" color="inherit" to="/">
+            TESSA
+          </MuiLink>
+          <Typography color="text.primary">Terms of Use</Typography>
+        </Breadcrumbs>
+      </Box>
       <Grid container justifyContent="center">
         <Grid item xs={12} md={8}>
           <Typography component="h1" variant="h3" align="center">

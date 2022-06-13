@@ -79,6 +79,7 @@ const DesktopNav = () => {
           spacing={4}
         >
           <Logo />
+          <DesktopNavLink label="Guide" path="/guide/" />
           <DesktopNavLink label="Skills" path="/skills/" />
           <DesktopNavLink label="Reflections" path="/reflections/" />
         </Stack>
@@ -128,6 +129,7 @@ const MobileNav = () => {
       </Stack>
       <List sx={{ display: isOpen ? "block" : "none" }}>
         <MobileNavLink label="Home" path="/" />
+        <MobileNavLink label="Guide" path="/guide/" />
         <MobileNavLink label="Skills" path="/skills/" />
         <MobileNavLink label="Reflections" path="/reflections/" />
         <Divider />

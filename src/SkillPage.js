@@ -2,13 +2,14 @@ import {
   Alert,
   AlertTitle,
   Box,
+  Breadcrumbs,
   Container,
   Grid,
   Link as MuiLink,
   Typography,
 } from "@mui/material";
 import { Fragment } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 
 import { fetchFacets, fetchSkill, fetchStatements } from "./api";
@@ -41,7 +42,25 @@ const SkillPage = () => {
   const { data: statements } = useQuery("statements", fetchStatements);
   return (
     <Page>
-      <Container sx={{ py: 4 }}>
+      <Container>
+        <Box mt={3} mb={10}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <MuiLink component={Link} underline="hover" color="inherit" to="/">
+              TESSA
+            </MuiLink>
+            <MuiLink
+              component={Link}
+              underline="hover"
+              color="inherit"
+              to="/skills/"
+            >
+              Skills
+            </MuiLink>
+            <Typography color="text.primary">
+              {isSuccessSkill && skill.name}
+            </Typography>
+          </Breadcrumbs>
+        </Box>
         <Box mb={10} py={2} sx={stickyHeaderStyles}>
           {isLoadingSkill && <SkillHeaderSkeleton />}
           {isErrorSkill && (

@@ -23,6 +23,7 @@ const Recommendation = ({
   prompt,
   skillId,
   facetId,
+  editable = true,
 }) => {
   const { isAuthor } = useSession();
   const queryClient = useQueryClient();
@@ -94,7 +95,7 @@ const Recommendation = ({
           }}
         />
       </Typography>
-      {isAuthor && (
+      {isAuthor && editable && (
         <Box sx={{ display: "flex", justifyContent: "flex-end", m: 1 }}>
           <Button onClick={() => setIsEditing(true)} size="small">
             Edit

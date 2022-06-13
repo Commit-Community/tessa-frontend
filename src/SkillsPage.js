@@ -2,6 +2,7 @@ import {
   Alert,
   AlertTitle,
   Box,
+  Breadcrumbs,
   Button,
   Card,
   Container,
@@ -28,7 +29,15 @@ const SkillsPage = () => {
   } = useQuery("skills", fetchSkills);
   return (
     <Page>
-      <Container sx={{ py: 6 }}>
+      <Container>
+        <Box mt={3} mb={12}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <MuiLink component={Link} underline="hover" color="inherit" to="/">
+              TESSA
+            </MuiLink>
+            <Typography color="text.primary">Skills</Typography>
+          </Breadcrumbs>
+        </Box>
         <Typography component="h1" variant="h3" mb>
           Skills
         </Typography>

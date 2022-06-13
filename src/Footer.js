@@ -2,7 +2,7 @@ import { Link as MuiLink, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const Footer = () => (
-  <Stack mt={12} mb={6} spacing={1} direction="row" justifyContent="center">
+  <Stack mt={24} mb={6} spacing={1} direction="row" justifyContent="center">
     <Typography align="center" color="text.secondary" variant="body2">
       © Commit Solutions Inc.
     </Typography>
