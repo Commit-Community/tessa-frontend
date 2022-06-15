@@ -18,8 +18,8 @@ const ClickWrapAgreement = ({ buttonLabel, justifyContent = "flex-start" }) => (
       ,{" "}
       <MuiLink href="/privacy-policy/" target="_blank">
         Privacy Policy
-      </MuiLink>,{" "}
-      and{" "}
+      </MuiLink>
+      , and{" "}
       <MuiLink href="/terms-of-use/" target="_blank">
         Terms of Use
       </MuiLink>

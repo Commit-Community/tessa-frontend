@@ -42,7 +42,10 @@ root.render(
               <Route path="/reflections/" element={<ReflectionsPage />} />
               <Route path="/guide/" element={<GuideIntroPage />} />
               <Route path="/guide/:step/" element={<GuidePage />} />
-              <Route path="/authoring-guidelines/" element={<AuthoringGuidelinesPage />} />
+              <Route
+                path="/authoring-guidelines/"
+                element={<AuthoringGuidelinesPage />}
+              />
               <Route path="/privacy-policy/" element={<PrivacyPolicyPage />} />
               <Route path="/terms-of-use/" element={<TermsOfUsePage />} />
             </Routes>
