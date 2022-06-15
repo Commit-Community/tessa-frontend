@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
+import AuthoringGuidelinesPage from "./AuthoringGuidelinesPage";
 import ErrorBoundary from "./ErrorBoundary";
 import GuideIntroPage from "./GuideIntroPage";
 import GuidePage from "./GuidePage";
@@ -41,6 +42,7 @@ root.render(
               <Route path="/reflections/" element={<ReflectionsPage />} />
               <Route path="/guide/" element={<GuideIntroPage />} />
               <Route path="/guide/:step/" element={<GuidePage />} />
+              <Route path="/authoring-guidelines/" element={<AuthoringGuidelinesPage />} />
               <Route path="/privacy-policy/" element={<PrivacyPolicyPage />} />
               <Route path="/terms-of-use/" element={<TermsOfUsePage />} />
             </Routes>

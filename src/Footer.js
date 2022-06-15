@@ -12,6 +12,9 @@ const Footer = () => (
     <MuiLink component={Link} to="/terms-of-use/" variant="body2">
       Terms of Use
     </MuiLink>
+    <MuiLink component={Link} to="/authoring-guidelines/" variant="body2">
+      Authoring Guidelines
+    </MuiLink>
   </Stack>
 );
 

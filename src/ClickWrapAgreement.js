@@ -10,10 +10,15 @@ const ClickWrapAgreement = ({ buttonLabel, justifyContent = "flex-start" }) => (
     my={1}
   >
     <span>
-      By clicking "{buttonLabel}", you agree to the{" "}
+      By clicking "{buttonLabel}", you affirm that you have read and agree to
+      the{" "}
+      <MuiLink href="/authoring-guidelines/" target="_blank">
+        Authoring Guidelines
+      </MuiLink>
+      ,{" "}
       <MuiLink href="/privacy-policy/" target="_blank">
         Privacy Policy
-      </MuiLink>{" "}
+      </MuiLink>,{" "}
       and{" "}
       <MuiLink href="/terms-of-use/" target="_blank">
         Terms of Use
