@@ -34,6 +34,9 @@ const Recommendation = ({
     {
       onSuccess: () => {
         setIsEditing(false);
+        if (!id) {
+          setMarkdown(defaultMarkdown);
+        }
         queryClient.invalidateQueries(["skills", skillId]);
       },
     }
