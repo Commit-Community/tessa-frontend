@@ -9,16 +9,22 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 import { fetchFacets, fetchSkills } from "./api";
 import Page from "./Page";
 import GuideSkillFacet from "./GuideSkillFacet";
+import { useLocalStorage } from "./useLocalStorage";
 
 const GuidePage = () => {
   const { step } = useParams();
   const stepNumber = Number(step);
+  const navigate = useNavigate();
+  const [isFinished, setIsFinished] = useState(false);
+  const [skillId, setSkillId] = useLocalStorage("guide:skillId", null);
+  const [facetId, setFacetId] = useLocalStorage("guide:facetId", null);
   const {
     data: skills,
     isError: isErrorSkills,
@@ -51,6 +57,25 @@ const GuidePage = () => {
     skill = skills[skillIndex];
     facet = facets[facetIndex];
   }
+  useEffect(() => {
+    if (isFinished) {
+      setSkillId(null);
+      setFacetId(null);
+      if (skillId === null && facetId === null) navigate("/reflections/");
+    } else {
+      if (skill) setSkillId(skill.id);
+      if (facet) setFacetId(facet.id);
+    }
+  }, [
+    skill,
+    facet,
+    skillId,
+    facetId,
+    setSkillId,
+    setFacetId,
+    isFinished,
+    navigate,
+  ]);
   return (
     <Page>
       <Container>
@@ -115,11 +140,10 @@ const GuidePage = () => {
                   )}
                   {stepNumber === totalSteps && (
                     <Button
-                      component={Link}
+                      onClick={() => setIsFinished(true)}
                       variant="contained"
                       size="large"
                       color="warning"
-                      to="/reflections/"
                     >
                       Finish 🎉
                     </Button>
