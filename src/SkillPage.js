@@ -3,6 +3,7 @@ import {
   AlertTitle,
   Box,
   Breadcrumbs,
+  Chip,
   Container,
   Grid,
   Link as MuiLink,
@@ -73,11 +74,26 @@ const SkillPage = () => {
             </Alert>
           )}
           {isSuccessSkill && (
-            <SkillHeader
-              id={skillId}
-              name={skill.name}
-              description={skill.description}
-            />
+            <>
+              <SkillHeader
+                id={skillId}
+                name={skill.name}
+                description={skill.description}
+                tags={skill.tags}
+              />
+              {skill.tags.length > 0 && (
+                <Box mt={2}>
+                  {skill.tags.map((tag) => (
+                    <Chip
+                      key={tag.id}
+                      label={tag.name}
+                      size="small"
+                      sx={{ mr: 1 }}
+                    />
+                  ))}
+                </Box>
+              )}
+            </>
           )}
         </Box>
         <Grid container columnSpacing={3} rowSpacing={9}>
