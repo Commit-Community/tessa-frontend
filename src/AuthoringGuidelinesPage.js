@@ -46,11 +46,13 @@ const AuthoringGuidelinesPage = () => {
                 <AlertTitle>Are you not a Commitizen?</AlertTitle>
                 <p>
                   The content on TESSA is collected from members of the{" "}
-                  <MuiLink href="https://commit.dev/">Commit</MuiLink>{" "}
+                  <MuiLink href="https://bit.ly/TESSAtoCommit">Commit</MuiLink>{" "}
                   community—Commitizens! If you have wisdom to share, then
                   you're likely a great fit for the community! You can{" "}
-                  <MuiLink href="https://commit.dev/">apply now</MuiLink> on the
-                  Commit website.
+                  <MuiLink href="https://bit.ly/TESSAtoCommit">
+                    apply now
+                  </MuiLink>{" "}
+                  on the Commit website.
                 </p>
               </Alert>
             )}
