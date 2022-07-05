@@ -88,3 +88,18 @@ export const saveRecommendation = (recommendation) =>
       : "/recommendations/",
     payload: recommendation,
   });
+
+export const createSkillTag = ({ skillId, tagName }) =>
+  fetchFromApi({
+    includeCredentials: true,
+    method: "POST",
+    path: `/skills/${skillId}/tags/`,
+    payload: { tag_name: tagName },
+  });
+
+export const deleteSkillTag = ({ skillId, tagId }) =>
+  fetchFromApi({
+    includeCredentials: true,
+    method: "DELETE",
+    path: `/skills/${skillId}/tags/${tagId}/`,
+  });
