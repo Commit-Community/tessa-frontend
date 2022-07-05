@@ -34,7 +34,8 @@ const SkillTags = ({ tags, skillId }) => {
           size="small"
           sx={{ mr: 1 }}
           onDelete={
-            isAuthor && (() => deleteSkillTagMutation({ skillId, tagId: tag.id }))
+            isAuthor &&
+            (() => deleteSkillTagMutation({ skillId, tagId: tag.id }))
           }
         />
       ))}
