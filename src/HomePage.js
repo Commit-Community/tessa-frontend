@@ -49,7 +49,8 @@ const HomePage = () => {
             >
               Improve self-awareness and practice essential skills with
               recommendations from the{" "}
-              <MuiLink href="https://commit.dev/">Commit</MuiLink> community.
+              <MuiLink href="https://bit.ly/TESSAtoCommit">Commit</MuiLink>{" "}
+              community.
             </Typography>
             <Box mb={12} textAlign="center" minHeight={100}>
               {isAnonymous && (
