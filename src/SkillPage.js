@@ -3,7 +3,6 @@ import {
   AlertTitle,
   Box,
   Breadcrumbs,
-  Chip,
   Container,
   Grid,
   Link as MuiLink,
@@ -18,8 +17,9 @@ import Page from "./Page";
 import Recommendation from "./Recommendation";
 import Reflection from "./Reflection";
 import SkillHeader, { SkillHeaderSkeleton } from "./SkillHeader";
-import useSession from "./useSession";
+import SkillTags from "./SkillTags";
 import { signInURL } from "./SignInButton";
+import useSession from "./useSession";
 
 const stickyHeaderStyles = {
   backgroundImage: "linear-gradient(90deg, #0f1011 0%, #010242 100%)",
@@ -81,18 +81,9 @@ const SkillPage = () => {
                 description={skill.description}
                 tags={skill.tags}
               />
-              {skill.tags.length > 0 && (
-                <Box mt={2}>
-                  {skill.tags.map((tag) => (
-                    <Chip
-                      key={tag.id}
-                      label={tag.name}
-                      size="small"
-                      sx={{ mr: 1 }}
-                    />
-                  ))}
-                </Box>
-              )}
+              <Box mt={2}>
+                <SkillTags tags={skill.tags} skillId={skillId} />
+              </Box>
             </>
           )}
         </Box>
