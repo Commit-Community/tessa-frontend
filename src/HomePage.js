@@ -1,19 +1,31 @@
 import {
   Box,
   Button,
+  Card,
   Container,
   Divider,
   Grid,
   Link as MuiLink,
   Typography,
 } from "@mui/material";
-import Page from "./Page";
+import MarkdownIt from "markdown-it";
+import { useQuery } from "react-query";
+
+import { fetchChangesFeed } from "./api";
 import { Link } from "react-router-dom";
-import useSession from "./useSession";
+import Page from "./Page";
 import SignInButton from "./SignInButton";
+import useSession from "./useSession";
+import SkillCard from "./SkillCard";
+
+const md = new MarkdownIt();
 
 const HomePage = () => {
   const { isUser, isAnonymous } = useSession();
+  const { data: changesFeed, isSuccess: isSuccessChangesFeed } = useQuery(
+    ["feeds", "changes"],
+    fetchChangesFeed
+  );
   return (
     <Page>
       <Container>
@@ -156,6 +168,57 @@ const HomePage = () => {
               </Box>
             </Grid>
           </Grid>
+        </Container>
+      </Box>
+      <Box py={6}>
+        <Container>
+          <Typography component="h2" variant="h2" align="center">
+            Latest updates
+          </Typography>
+          <Typography component="h3" variant="h5" align="center" pt={6} pb={3}>
+            Recently updated in essential skills
+          </Typography>
+          {isSuccessChangesFeed && (
+            <Grid container spacing={2}>
+              {changesFeed.skills.map((skill) => (
+                <Grid item key={skill.id} xs={12} md={6} lg={4}>
+                  <SkillCard skill={skill} />
+                </Grid>
+              ))}
+            </Grid>
+          )}
+          <Typography component="h3" variant="h5" align="center" pt={9} pb={6}>
+            Recently contributed in community recommendations
+          </Typography>
+          {isSuccessChangesFeed && (
+            <Grid container columnSpacing={2} rowSpacing={6}>
+              {changesFeed.recommendations.map((recommendation) => (
+                <Grid item key={recommendation.id} xs={12} md={6} lg={4}>
+                  <Box mb={2} minHeight="4.5em">
+                    On{" "}
+                    <MuiLink
+                      component={Link}
+                      to={`/skills/${recommendation.skill.id}`}
+                    >
+                      {recommendation.skill.name}
+                    </MuiLink>
+                    , for the question{" "}
+                    <b>"{recommendation.facet.recommendation_prompt}"</b>{" "}
+                    someone recommended:
+                  </Box>
+                  <Card variant="outlined" sx={{ mb: 2 }}>
+                    <Typography component="div" px={1.5}>
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: md.render(recommendation.markdown),
+                        }}
+                      />
+                    </Typography>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          )}
         </Container>
       </Box>
     </Page>
