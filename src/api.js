@@ -26,6 +26,9 @@ export const fetchAuthSession = ({ signal }) =>
     signal,
   });
 
+export const fetchChangesFeed = ({ signal }) =>
+  fetchFromApi({ path: "/feeds/changes/", signal });
+
 export const fetchSkills = ({ signal }) =>
   fetchFromApi({ path: "/skills/", signal });
 
