@@ -4,6 +4,7 @@ import {
   Box,
   Breadcrumbs,
   Button,
+  Chip,
   Container,
   Grid,
   Link as MuiLink,
@@ -11,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useQuery } from "react-query";
 
 import { fetchSkills } from "./api";
@@ -21,6 +22,9 @@ import useSession from "./useSession";
 
 const SkillsPage = () => {
   const { isAuthor } = useSession();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const isFiltered = searchParams.has("tags");
+  const searchTags = searchParams.getAll("tags");
   const {
     data: skills,
     isError,
@@ -45,6 +49,29 @@ const SkillsPage = () => {
           This page lists all of the essential skills that have been documented
           in TESSA.
         </Typography>
+        {searchTags.length > 0 && (
+          <Box my={6}>
+            Showing skills tagged with:{" "}
+            {searchTags.map((searchTag) => (
+              <Chip
+                key={searchTag}
+                label={searchTag}
+                sx={{ mr: 1 }}
+                onDelete={() => {
+                  const newSearchParams = new URLSearchParams();
+                  for (const [key, value] of searchParams) {
+                    const isBeingRemoved =
+                      key === "tags" && value === searchTag;
+                    if (!isBeingRemoved) {
+                      newSearchParams.append(key, value);
+                    }
+                  }
+                  setSearchParams(newSearchParams);
+                }}
+              />
+            ))}
+          </Box>
+        )}
         <Grid container spacing={2} sx={{ my: 3 }}>
           {isLoading && (
             <Fragment>
@@ -71,11 +98,20 @@ const SkillsPage = () => {
             </Grid>
           )}
           {isSuccess &&
-            skills.map((skill) => (
-              <Grid item key={skill.id} xs={12} md={6} lg={4}>
-                <SkillCard skill={skill} />
-              </Grid>
-            ))}
+            skills
+              .filter(({ tags }) =>
+                isFiltered
+                  ? searchTags.every(
+                      (searchTag) =>
+                        tags.findIndex(({ name }) => name === searchTag) !== -1
+                    )
+                  : true
+              )
+              .map((skill) => (
+                <Grid item key={skill.id} xs={12} md={6} lg={4}>
+                  <SkillCard skill={skill} />
+                </Grid>
+              ))}
           {isAuthor && (
             <Grid item xs={12} md={6} lg={4}>
               <Box display="flex" justifyContent="center">
