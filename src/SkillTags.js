@@ -1,11 +1,13 @@
 import { Box, Button, Chip, Stack, TextField } from "@mui/material";
 import { useMutation, useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import { createSkillTag, deleteSkillTag } from "./api";
 import useSession from "./useSession";
 
 const SkillTags = ({ tags, skillId }) => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isAuthor } = useSession();
   const [isAdding, setIsAdding] = useState(false);
@@ -33,6 +35,9 @@ const SkillTags = ({ tags, skillId }) => {
           label={tag.name}
           size="small"
           sx={{ mr: 1 }}
+          onClick={() => {
+            navigate(`/skills/?tags=${tag.name}`);
+          }}
           onDelete={
             isAuthor
               ? () => deleteSkillTagMutation({ skillId, tagId: tag.id })
