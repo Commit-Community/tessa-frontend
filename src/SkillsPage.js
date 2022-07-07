@@ -4,6 +4,7 @@ import {
   Box,
   Breadcrumbs,
   Button,
+  Chip,
   Container,
   Grid,
   Link as MuiLink,
@@ -21,7 +22,7 @@ import useSession from "./useSession";
 
 const SkillsPage = () => {
   const { isAuthor } = useSession();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const isFiltered = searchParams.has("tags");
   const searchTags = searchParams.getAll("tags");
   const {
@@ -48,6 +49,29 @@ const SkillsPage = () => {
           This page lists all of the essential skills that have been documented
           in TESSA.
         </Typography>
+        {searchTags.length > 0 && (
+          <Box my={6}>
+            Showing skills tagged with:{" "}
+            {searchTags.map((searchTag) => (
+              <Chip
+                key={searchTag}
+                label={searchTag}
+                sx={{ mr: 1 }}
+                onDelete={() => {
+                  const newSearchParams = new URLSearchParams();
+                  for (const [key, value] of searchParams) {
+                    const isBeingRemoved =
+                      key === "tags" && value === searchTag;
+                    if (!isBeingRemoved) {
+                      newSearchParams.append(key, value);
+                    }
+                  }
+                  setSearchParams(newSearchParams);
+                }}
+              />
+            ))}
+          </Box>
+        )}
         <Grid container spacing={2} sx={{ my: 3 }}>
           {isLoading && (
             <Fragment>
@@ -77,7 +101,10 @@ const SkillsPage = () => {
             skills
               .filter(({ tags }) =>
                 isFiltered
-                  ? tags.some(({ name }) => searchTags.includes(name))
+                  ? searchTags.every(
+                      (searchTag) =>
+                        tags.findIndex(({ name }) => name === searchTag) !== -1
+                    )
                   : true
               )
               .map((skill) => (
