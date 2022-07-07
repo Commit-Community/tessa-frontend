@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useQuery } from "react-query";
 
 import { fetchSkills } from "./api";
@@ -21,6 +21,9 @@ import useSession from "./useSession";
 
 const SkillsPage = () => {
   const { isAuthor } = useSession();
+  const [searchParams] = useSearchParams();
+  const isFiltered = searchParams.has("tags");
+  const searchTags = searchParams.getAll("tags");
   const {
     data: skills,
     isError,
@@ -71,11 +74,17 @@ const SkillsPage = () => {
             </Grid>
           )}
           {isSuccess &&
-            skills.map((skill) => (
-              <Grid item key={skill.id} xs={12} md={6} lg={4}>
-                <SkillCard skill={skill} />
-              </Grid>
-            ))}
+            skills
+              .filter(({ tags }) =>
+                isFiltered
+                  ? tags.some(({ name }) => searchTags.includes(name))
+                  : true
+              )
+              .map((skill) => (
+                <Grid item key={skill.id} xs={12} md={6} lg={4}>
+                  <SkillCard skill={skill} />
+                </Grid>
+              ))}
           {isAuthor && (
             <Grid item xs={12} md={6} lg={4}>
               <Box display="flex" justifyContent="center">
