@@ -24,9 +24,11 @@ const SkillCard = ({ skill }) => (
     <Typography variant="body2" mb={3} lineHeight={1.5} minHeight="4.5em">
       {skill.description}
     </Typography>
-    <Box mb={3}>
-      <SkillTags skillId={skill.id} tags={skill.tags} />
-    </Box>
+    {!!skill.tags && skill.tags.length > 0 && (
+      <Box mb={3}>
+        <SkillTags skillId={skill.id} tags={skill.tags} />
+      </Box>
+    )}
     <Typography variant="button">
       <MuiLink component={Link} to={`/skills/${skill.id}/`} underline="none">
         View skill
