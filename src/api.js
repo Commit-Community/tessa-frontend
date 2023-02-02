@@ -22,29 +22,29 @@ const fetchFromApi = async ({
 export const fetchAuthSession = ({ signal }) =>
   fetchFromApi({
     includeCredentials: true,
-    path: "/auth/session/",
+    path: "/auth/session",
     signal,
   });
 
 export const fetchChangesFeed = ({ signal }) =>
-  fetchFromApi({ path: "/feeds/changes/", signal });
+  fetchFromApi({ path: "/feeds/changes", signal });
 
 export const fetchSkills = ({ signal }) =>
-  fetchFromApi({ path: "/skills/", signal });
+  fetchFromApi({ path: "/skills", signal });
 
 export const fetchSkill = ({ queryKey: [_, skillId], signal }) =>
-  fetchFromApi({ path: `/skills/${skillId}/`, signal });
+  fetchFromApi({ path: `/skills/${skillId}`, signal });
 
 export const fetchFacets = ({ signal }) =>
-  fetchFromApi({ path: "/facets/", signal });
+  fetchFromApi({ path: "/facets", signal });
 
 export const fetchStatements = ({ signal }) =>
-  fetchFromApi({ path: "/statements/", signal });
+  fetchFromApi({ path: "/statements", signal });
 
 export const fetchSkillsByFacetStatements = ({ signal }) =>
   fetchFromApi({
     includeCredentials: true,
-    path: "/reflections/latest/skills-by-facet-statements/",
+    path: "/reflections/latest/skills-by-facet-statements",
     signal,
   });
 
@@ -54,7 +54,7 @@ export const fetchLatestReflectionForSkillFacet = ({
 }) =>
   fetchFromApi({
     includeCredentials: true,
-    path: `/reflections/latest/skills/${skillId}/facets/${facetId}/`,
+    path: `/reflections/latest/skills/${skillId}/facets/${facetId}`,
     signal,
   });
 
@@ -62,7 +62,7 @@ export const createReflection = (reflection) =>
   fetchFromApi({
     includeCredentials: true,
     method: "POST",
-    path: `/reflections/`,
+    path: `/reflections`,
     payload: reflection,
   });
 
@@ -70,7 +70,7 @@ export const createSkill = (skill) =>
   fetchFromApi({
     includeCredentials: true,
     method: "POST",
-    path: `/skills/`,
+    path: `/skills`,
     payload: skill,
   });
 
@@ -78,7 +78,7 @@ export const updateSkill = (skill) =>
   fetchFromApi({
     includeCredentials: true,
     method: "PUT",
-    path: `/skills/${skill.id}/`,
+    path: `/skills/${skill.id}`,
     payload: skill,
   });
 
@@ -87,8 +87,8 @@ export const saveRecommendation = (recommendation) =>
     includeCredentials: true,
     method: recommendation.id ? "PUT" : "POST",
     path: recommendation.id
-      ? `/recommendations/${recommendation.id}/`
-      : "/recommendations/",
+      ? `/recommendations/${recommendation.id}`
+      : "/recommendations",
     payload: recommendation,
   });
 
@@ -96,7 +96,7 @@ export const createSkillTag = ({ skillId, tagName }) =>
   fetchFromApi({
     includeCredentials: true,
     method: "POST",
-    path: `/skills/${skillId}/tags/`,
+    path: `/skills/${skillId}/tags`,
     payload: { tag_name: tagName },
   });
 
@@ -104,5 +104,5 @@ export const deleteSkillTag = ({ skillId, tagId }) =>
   fetchFromApi({
     includeCredentials: true,
     method: "DELETE",
-    path: `/skills/${skillId}/tags/${tagId}/`,
+    path: `/skills/${skillId}/tags/${tagId}`,
   });
