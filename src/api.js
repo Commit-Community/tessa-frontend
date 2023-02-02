@@ -5,13 +5,18 @@ const fetchFromApi = async ({
   payload,
   signal,
 }) => {
-  const response = await fetch(`${process.env.REACT_APP_API_ORIGIN}${path}`, {
-    credentials: includeCredentials ? "include" : "omit",
-    method,
-    signal,
-    headers: payload && { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
+  const response = await fetch(
+    `${process.env.REACT_APP_API_ORIGIN}${path}${
+      process.env.REACT_APP_API_SUFFIX || ""
+    }`,
+    {
+      credentials: includeCredentials ? "include" : "omit",
+      method,
+      signal,
+      headers: payload && { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    }
+  );
   const { data, error } = await response.json();
   if (error) {
     throw error;
