@@ -18,7 +18,6 @@ import Recommendation from "./Recommendation";
 import Reflection from "./Reflection";
 import SkillHeader, { SkillHeaderSkeleton } from "./SkillHeader";
 import SkillTags from "./SkillTags";
-import { signInURL } from "./SignInButton";
 import useSession from "./useSession";
 
 const stickyHeaderStyles = {
@@ -117,8 +116,8 @@ const SkillPage = () => {
                         color="primary"
                         sx={{ mt: 2 }}
                       >
-                        <MuiLink href={signInURL}>Sign in</MuiLink> to save your
-                        reflection.
+                        Signing in to save your reflection is temporarily
+                        disabled.
                       </Typography>
                     )}
                   </Grid>

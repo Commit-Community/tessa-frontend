@@ -1,11 +1,10 @@
-import { Box, Link as MuiLink, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useQuery } from "react-query";
 
 import { fetchSkill, fetchStatements } from "./api";
 import Reflection from "./Reflection";
 import Recommendation from "./Recommendation";
 import useSession from "./useSession";
-import { signInURL } from "./SignInButton";
 
 const GuideSkillFacet = ({ skill, facet }) => {
   const { isAnonymous, isUser } = useSession();
@@ -97,8 +96,7 @@ const GuideSkillFacet = ({ skill, facet }) => {
               color="primary"
               sx={{ mt: 2 }}
             >
-              <MuiLink href={signInURL}>Sign in</MuiLink> to save your
-              reflection.
+              Signing in to save your reflection is temporarily disabled.
             </Typography>
           )}
         </>
